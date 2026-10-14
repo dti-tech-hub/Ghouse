@@ -1,0 +1,1377 @@
+{
+  "label": "DEMO / MOCK RESULTS",
+  "generated_from": {
+    "fault_sweep_runs": 432,
+    "questions": 24,
+    "faults": 18
+  },
+  "overall": {
+    "runs": 432,
+    "detected": 432,
+    "detection_rate_pct": 100.0,
+    "top1_accuracy_pct": 61.34,
+    "top1_correct": 265,
+    "topk_accuracy_pct": 63.19,
+    "topk_correct": 273,
+    "runs_with_recovery_attempts": 342,
+    "recovered": 192,
+    "recovery_success_pct_of_attempted": 56.14,
+    "verified_recovery": 192,
+    "abstained": 172,
+    "abstention_rate_pct": 39.81,
+    "latency_ms": {
+      "n": 432,
+      "min": 1.894,
+      "p50": 91.147,
+      "mean": 132.489,
+      "p95": 394.174,
+      "max": 882.511,
+      "stdev": 134.993
+    },
+    "diagnosis_latency_ms": {
+      "n": 432,
+      "min": 0.087,
+      "p50": 0.253,
+      "mean": 0.573,
+      "p95": 2.433,
+      "max": 4.665,
+      "stdev": 0.779
+    },
+    "added_latency_ms": {
+      "n": 342,
+      "min": 0.03,
+      "p50": 72.287,
+      "mean": 107.33,
+      "p95": 331.519,
+      "max": 803.235,
+      "stdev": 120.03
+    }
+  },
+  "per_fault": [
+    {
+      "fault_type": "AMBIGUOUS_QUERY",
+      "target_stage": "query_understanding",
+      "expected_subtype": "ambiguous_query",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 22,
+      "topk": 22,
+      "recovered": 20,
+      "abstained": 4,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 91.67,
+      "topk_pct": 91.67,
+      "recovery_success_pct": 83.33,
+      "abstention_pct": 16.67,
+      "median_latency_ms": 161.25,
+      "mean_confidence": 0.7942,
+      "actions": {
+        "QUERY_REWRITE": 22,
+        "DECOMPOSITION_REPAIR": 3,
+        "CONSTRAINED_REGENERATION": 2,
+        "CONTEXT_EXPANSION": 2
+      }
+    },
+    {
+      "fault_type": "BAD_QUERY_REWRITE",
+      "target_stage": "query_understanding",
+      "expected_subtype": "incorrect_rewrite",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 23,
+      "topk": 23,
+      "recovered": 16,
+      "abstained": 8,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 95.83,
+      "topk_pct": 95.83,
+      "recovery_success_pct": 66.67,
+      "abstention_pct": 33.33,
+      "median_latency_ms": 102.85,
+      "mean_confidence": 0.8767,
+      "actions": {
+        "QUERY_REWRITE": 23
+      }
+    },
+    {
+      "fault_type": "CHUNK_FRAGMENTATION",
+      "target_stage": "context_assembly",
+      "expected_subtype": "fragmented_context",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 9,
+      "topk": 17,
+      "recovered": 16,
+      "abstained": 7,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 37.5,
+      "topk_pct": 70.83,
+      "recovery_success_pct": 66.67,
+      "abstention_pct": 29.17,
+      "median_latency_ms": 69.6,
+      "mean_confidence": 0.8533,
+      "actions": {
+        "CHUNK_EXPANSION": 19,
+        "CONTEXT_EXPANSION": 4,
+        "EXPAND_TOP_K": 3,
+        "QUERY_REWRITE": 2,
+        "BROADEN_RETRIEVAL": 2,
+        "CONSTRAINED_REGENERATION": 1
+      }
+    },
+    {
+      "fault_type": "CONFLICTING_EVIDENCE",
+      "target_stage": "context_assembly",
+      "expected_subtype": "conflicting_evidence",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 16,
+      "topk": 16,
+      "recovered": 0,
+      "abstained": 17,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 66.67,
+      "topk_pct": 66.67,
+      "recovery_success_pct": 0.0,
+      "abstention_pct": 70.83,
+      "median_latency_ms": 143.41,
+      "mean_confidence": 0.6542,
+      "actions": {
+        "CHUNK_EXPANSION": 16,
+        "ALTERNATE_PATH": 16,
+        "QUERY_REWRITE": 1,
+        "EXPAND_TOP_K": 1,
+        "BROADEN_RETRIEVAL": 1
+      }
+    },
+    {
+      "fault_type": "CONTEXT_TRUNCATION",
+      "target_stage": "context_assembly",
+      "expected_subtype": "insufficient_context",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 23,
+      "topk": 23,
+      "recovered": 23,
+      "abstained": 1,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 95.83,
+      "topk_pct": 95.83,
+      "recovery_success_pct": 95.83,
+      "abstention_pct": 4.17,
+      "median_latency_ms": 120.98,
+      "mean_confidence": 0.8808,
+      "actions": {
+        "CHUNK_EXPANSION": 23,
+        "CONTEXT_EXPANSION": 23,
+        "QUERY_REWRITE": 1,
+        "EXPAND_TOP_K": 1,
+        "BROADEN_RETRIEVAL": 1
+      }
+    },
+    {
+      "fault_type": "EMBEDDING_FAILURE",
+      "target_stage": "infrastructure",
+      "expected_subtype": "embedding_failure",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 24,
+      "topk": 24,
+      "recovered": 0,
+      "abstained": 24,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 100.0,
+      "topk_pct": 100.0,
+      "recovery_success_pct": 0.0,
+      "abstention_pct": 100.0,
+      "median_latency_ms": 174.03,
+      "mean_confidence": 0.94,
+      "actions": {
+        "ALTERNATE_PATH": 24,
+        "BOUNDED_RETRY": 24
+      }
+    },
+    {
+      "fault_type": "EMPTY_RETRIEVAL",
+      "target_stage": "retrieval",
+      "expected_subtype": "empty_retrieval",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 24,
+      "topk": 24,
+      "recovered": 0,
+      "abstained": 24,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 100.0,
+      "topk_pct": 100.0,
+      "recovery_success_pct": 0.0,
+      "abstention_pct": 100.0,
+      "median_latency_ms": 4.13,
+      "mean_confidence": 0.9,
+      "actions": {
+        "BOUNDED_RETRY": 24
+      }
+    },
+    {
+      "fault_type": "GENERATION_CONSTRAINT_REMOVAL",
+      "target_stage": "generation",
+      "expected_subtype": "hallucination",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 23,
+      "topk": 23,
+      "recovered": 22,
+      "abstained": 2,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 95.83,
+      "topk_pct": 95.83,
+      "recovery_success_pct": 91.67,
+      "abstention_pct": 8.33,
+      "median_latency_ms": 92.45,
+      "mean_confidence": 0.9295,
+      "actions": {
+        "CONSTRAINED_REGENERATION": 23,
+        "CONTEXT_EXPANSION": 1,
+        "QUERY_REWRITE": 1,
+        "EXPAND_TOP_K": 1,
+        "BROADEN_RETRIEVAL": 1
+      }
+    },
+    {
+      "fault_type": "INCOMPLETE_DECOMPOSITION",
+      "target_stage": "query_decomposition",
+      "expected_subtype": "incomplete_decomposition",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 1,
+      "topk": 1,
+      "recovered": 0,
+      "abstained": 2,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 4.17,
+      "topk_pct": 4.17,
+      "recovery_success_pct": 0.0,
+      "abstention_pct": 8.33,
+      "median_latency_ms": 70.93,
+      "mean_confidence": 0.5271,
+      "actions": {
+        "QUERY_REWRITE": 2,
+        "DECOMPOSITION_REPAIR": 1,
+        "EXPAND_TOP_K": 1,
+        "BROADEN_RETRIEVAL": 1
+      }
+    },
+    {
+      "fault_type": "IRRELEVANT_DOC_INJECTION",
+      "target_stage": "retrieval",
+      "expected_subtype": "irrelevant_retrieval",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 0,
+      "topk": 0,
+      "recovered": 0,
+      "abstained": 24,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 0.0,
+      "topk_pct": 0.0,
+      "recovery_success_pct": 0.0,
+      "abstention_pct": 100.0,
+      "median_latency_ms": 272.56,
+      "mean_confidence": 0.9,
+      "actions": {
+        "QUERY_REWRITE": 24,
+        "EXPAND_TOP_K": 24,
+        "BROADEN_RETRIEVAL": 24
+      }
+    },
+    {
+      "fault_type": "LOW_TOP_K",
+      "target_stage": "retrieval",
+      "expected_subtype": "relevant_ranked_low",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 0,
+      "topk": 0,
+      "recovered": 5,
+      "abstained": 1,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 0.0,
+      "topk_pct": 0.0,
+      "recovery_success_pct": 20.83,
+      "abstention_pct": 4.17,
+      "median_latency_ms": 36.02,
+      "mean_confidence": 0.5765,
+      "actions": {
+        "CHUNK_EXPANSION": 5,
+        "CONTEXT_EXPANSION": 1,
+        "EXPAND_TOP_K": 2,
+        "QUERY_REWRITE": 1,
+        "BROADEN_RETRIEVAL": 1
+      }
+    },
+    {
+      "fault_type": "MODEL_FAILURE",
+      "target_stage": "infrastructure",
+      "expected_subtype": "malformed_response",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 24,
+      "topk": 24,
+      "recovered": 24,
+      "abstained": 0,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 100.0,
+      "topk_pct": 100.0,
+      "recovery_success_pct": 100.0,
+      "abstention_pct": 0.0,
+      "median_latency_ms": 9.84,
+      "mean_confidence": 0.92,
+      "actions": {
+        "BOUNDED_RETRY": 24
+      }
+    },
+    {
+      "fault_type": "QUERY_CORRUPTION",
+      "target_stage": "query_understanding",
+      "expected_subtype": "low_recall",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 1,
+      "topk": 1,
+      "recovered": 4,
+      "abstained": 8,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 4.17,
+      "topk_pct": 4.17,
+      "recovery_success_pct": 16.67,
+      "abstention_pct": 33.33,
+      "median_latency_ms": 47.53,
+      "mean_confidence": 0.6428,
+      "actions": {
+        "CHUNK_EXPANSION": 1,
+        "CONTEXT_EXPANSION": 1,
+        "EXPAND_TOP_K": 1,
+        "QUERY_REWRITE": 6,
+        "DECOMPOSITION_REPAIR": 1
+      }
+    },
+    {
+      "fault_type": "RANKING_CORRUPTION",
+      "target_stage": "ranking",
+      "expected_subtype": "poor_reranking",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 6,
+      "topk": 6,
+      "recovered": 0,
+      "abstained": 21,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 25.0,
+      "topk_pct": 25.0,
+      "recovery_success_pct": 0.0,
+      "abstention_pct": 87.5,
+      "median_latency_ms": 48.85,
+      "mean_confidence": 0.7958,
+      "actions": {
+        "QUERY_REWRITE": 6,
+        "EXPAND_TOP_K": 4,
+        "BROADEN_RETRIEVAL": 4
+      }
+    },
+    {
+      "fault_type": "RELEVANT_DOC_REMOVAL",
+      "target_stage": "retrieval",
+      "expected_subtype": "no_useful_evidence",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 3,
+      "topk": 3,
+      "recovered": 5,
+      "abstained": 14,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 12.5,
+      "topk_pct": 12.5,
+      "recovery_success_pct": 20.83,
+      "abstention_pct": 58.33,
+      "median_latency_ms": 166.73,
+      "mean_confidence": 0.7384,
+      "actions": {
+        "QUERY_REWRITE": 9,
+        "EXPAND_TOP_K": 8,
+        "BROADEN_RETRIEVAL": 6,
+        "CHUNK_EXPANSION": 9,
+        "CONTEXT_EXPANSION": 5
+      }
+    },
+    {
+      "fault_type": "RETRIEVAL_TIMEOUT",
+      "target_stage": "infrastructure",
+      "expected_subtype": "timeout",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 24,
+      "topk": 24,
+      "recovered": 23,
+      "abstained": 1,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 100.0,
+      "topk_pct": 100.0,
+      "recovery_success_pct": 95.83,
+      "abstention_pct": 4.17,
+      "median_latency_ms": 49.12,
+      "mean_confidence": 0.93,
+      "actions": {
+        "BOUNDED_RETRY": 24,
+        "ALTERNATE_PATH": 1
+      }
+    },
+    {
+      "fault_type": "STALE_DOCUMENT",
+      "target_stage": "retrieval",
+      "expected_subtype": "stale_documents",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 18,
+      "topk": 18,
+      "recovered": 11,
+      "abstained": 13,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 75.0,
+      "topk_pct": 75.0,
+      "recovery_success_pct": 45.83,
+      "abstention_pct": 54.17,
+      "median_latency_ms": 215.43,
+      "mean_confidence": 0.73,
+      "actions": {
+        "ALTERNATE_PATH": 18,
+        "BOUNDED_RETRY": 13,
+        "CHUNK_EXPANSION": 6
+      }
+    },
+    {
+      "fault_type": "TOOL_TIMEOUT",
+      "target_stage": "retrieval",
+      "expected_subtype": "timeout",
+      "expected_class": null,
+      "n": 24,
+      "detected": 24,
+      "top1": 24,
+      "topk": 24,
+      "recovered": 23,
+      "abstained": 1,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 100.0,
+      "topk_pct": 100.0,
+      "recovery_success_pct": 95.83,
+      "abstention_pct": 4.17,
+      "median_latency_ms": 44.79,
+      "mean_confidence": 0.93,
+      "actions": {
+        "BOUNDED_RETRY": 24,
+        "ALTERNATE_PATH": 1
+      }
+    }
+  ],
+  "per_class": [
+    {
+      "failure_class": "CONTEXT_FAILURE",
+      "n": 72,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 66.67,
+      "topk_pct": 77.78,
+      "recovery_success_pct": 54.17,
+      "recovered": 39,
+      "abstention_pct": 34.72,
+      "median_latency_ms": 117.34
+    },
+    {
+      "failure_class": "GENERATION_FAILURE",
+      "n": 24,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 95.83,
+      "topk_pct": 95.83,
+      "recovery_success_pct": 91.67,
+      "recovered": 22,
+      "abstention_pct": 8.33,
+      "median_latency_ms": 92.45
+    },
+    {
+      "failure_class": "INFRASTRUCTURE_FAILURE",
+      "n": 96,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 100.0,
+      "topk_pct": 100.0,
+      "recovery_success_pct": 72.92,
+      "recovered": 70,
+      "abstention_pct": 27.08,
+      "median_latency_ms": 46.82
+    },
+    {
+      "failure_class": "QUERY_FAILURE",
+      "n": 72,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 63.89,
+      "topk_pct": 63.89,
+      "recovery_success_pct": 50.0,
+      "recovered": 36,
+      "abstention_pct": 19.44,
+      "median_latency_ms": 117.85
+    },
+    {
+      "failure_class": "RANKING_FAILURE",
+      "n": 48,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 12.5,
+      "topk_pct": 12.5,
+      "recovery_success_pct": 10.42,
+      "recovered": 5,
+      "abstention_pct": 45.83,
+      "median_latency_ms": 45.65
+    },
+    {
+      "failure_class": "RETRIEVAL_FAILURE",
+      "n": 120,
+      "detection_rate_pct": 100.0,
+      "top1_pct": 38.33,
+      "topk_pct": 38.33,
+      "recovery_success_pct": 16.67,
+      "recovered": 20,
+      "abstention_pct": 69.17,
+      "median_latency_ms": 148.89
+    }
+  ],
+  "confusion": {
+    "ambiguous_query": {
+      "ambiguous_query": 22,
+      "hallucination": 2
+    },
+    "conflicting_evidence": {
+      "conflicting_evidence": 16,
+      "none": 7,
+      "no_useful_evidence": 1
+    },
+    "embedding_failure": {
+      "embedding_failure": 24
+    },
+    "empty_retrieval": {
+      "empty_retrieval": 24
+    },
+    "fragmented_context": {
+      "insufficient_context": 10,
+      "fragmented_context": 9,
+      "no_useful_evidence": 2,
+      "poor_reranking": 1,
+      "hallucination": 1,
+      "none": 1
+    },
+    "hallucination": {
+      "hallucination": 23,
+      "no_useful_evidence": 1
+    },
+    "incomplete_decomposition": {
+      "none": 22,
+      "incomplete_decomposition": 1,
+      "no_useful_evidence": 1
+    },
+    "incorrect_rewrite": {
+      "incorrect_rewrite": 23,
+      "irrelevant_ranked_high": 1
+    },
+    "insufficient_context": {
+      "insufficient_context": 23,
+      "no_useful_evidence": 1
+    },
+    "irrelevant_retrieval": {
+      "no_useful_evidence": 24
+    },
+    "low_recall": {
+      "none": 12,
+      "ambiguous_query": 4,
+      "irrelevant_ranked_high": 3,
+      "poor_reranking": 2,
+      "insufficient_context": 1,
+      "low_recall": 1,
+      "irrelevant_retrieval": 1
+    },
+    "malformed_response": {
+      "malformed_response": 24
+    },
+    "no_useful_evidence": {
+      "fragmented_context": 8,
+      "none": 5,
+      "no_useful_evidence": 3,
+      "low_recall": 3,
+      "irrelevant_retrieval": 3,
+      "missing_evidence": 1,
+      "insufficient_context": 1
+    },
+    "poor_reranking": {
+      "irrelevant_ranked_high": 9,
+      "poor_reranking": 6,
+      "no_useful_evidence": 4,
+      "none": 3,
+      "irrelevant_retrieval": 2
+    },
+    "relevant_ranked_low": {
+      "none": 18,
+      "insufficient_context": 5,
+      "no_useful_evidence": 1
+    },
+    "stale_documents": {
+      "stale_documents": 18,
+      "fragmented_context": 6
+    },
+    "timeout": {
+      "timeout": 48
+    }
+  },
+  "top_misroutes": [
+    {
+      "from_class": "RETRIEVAL_FAILURE",
+      "to_subtype": "RETRIEVAL_FAILURE",
+      "count": 31
+    },
+    {
+      "from_class": "QUERY_FAILURE",
+      "to_subtype": "NONE",
+      "count": 22
+    },
+    {
+      "from_class": "RANKING_FAILURE",
+      "to_subtype": "NONE",
+      "count": 21
+    },
+    {
+      "from_class": "RETRIEVAL_FAILURE",
+      "to_subtype": "NONE",
+      "count": 17
+    },
+    {
+      "from_class": "RETRIEVAL_FAILURE",
+      "to_subtype": "CONTEXT_FAILURE",
+      "count": 17
+    },
+    {
+      "from_class": "CONTEXT_FAILURE",
+      "to_subtype": "CONTEXT_FAILURE",
+      "count": 10
+    },
+    {
+      "from_class": "RANKING_FAILURE",
+      "to_subtype": "RANKING_FAILURE",
+      "count": 9
+    },
+    {
+      "from_class": "CONTEXT_FAILURE",
+      "to_subtype": "NONE",
+      "count": 8
+    },
+    {
+      "from_class": "RANKING_FAILURE",
+      "to_subtype": "RETRIEVAL_FAILURE",
+      "count": 7
+    },
+    {
+      "from_class": "RETRIEVAL_FAILURE",
+      "to_subtype": "RANKING_FAILURE",
+      "count": 5
+    },
+    {
+      "from_class": "RANKING_FAILURE",
+      "to_subtype": "CONTEXT_FAILURE",
+      "count": 5
+    },
+    {
+      "from_class": "RETRIEVAL_FAILURE",
+      "to_subtype": "QUERY_FAILURE",
+      "count": 4
+    }
+  ],
+  "outcomes": {
+    "abstained": 172,
+    "success": 68,
+    "recovered": 192
+  },
+  "diagnosis_tiers": {
+    "DiagnosisTier.RULE": 362,
+    "DiagnosisTier.LLM": 70
+  },
+  "rules_triggered": {
+    "R_RANK_002": 9,
+    "R_CTX_003": 4,
+    "R_QRY_001": 26,
+    "R_RANK_003": 4,
+    "R_RANK_005": 9,
+    "R_RET_006": 6,
+    "R_QRY_003": 23,
+    "R_RET_002": 38,
+    "R_RET_004": 3,
+    "R_CTX_004": 22,
+    "R_CTX_001": 1,
+    "R_CTX_002": 36,
+    "R_GEN_001": 26,
+    "R_CTX_006": 16,
+    "R_RET_008": 18,
+    "R_INFRA_002": 48,
+    "R_RET_001": 24,
+    "R_INFRA_005": 24,
+    "R_INFRA_004": 24,
+    "R_QRY_005": 1
+  },
+  "recovery_actions": [
+    {
+      "action": "BOUNDED_RETRY",
+      "attempts": 133,
+      "success": 70,
+      "verified": 70,
+      "success_rate_pct": 52.63
+    },
+    {
+      "action": "QUERY_REWRITE",
+      "attempts": 98,
+      "success": 39,
+      "verified": 39,
+      "success_rate_pct": 39.8
+    },
+    {
+      "action": "CHUNK_EXPANSION",
+      "attempts": 79,
+      "success": 31,
+      "verified": 31,
+      "success_rate_pct": 39.24
+    },
+    {
+      "action": "ALTERNATE_PATH",
+      "attempts": 60,
+      "success": 5,
+      "verified": 5,
+      "success_rate_pct": 8.33
+    },
+    {
+      "action": "EXPAND_TOP_K",
+      "attempts": 46,
+      "success": 1,
+      "verified": 1,
+      "success_rate_pct": 2.17
+    },
+    {
+      "action": "BROADEN_RETRIEVAL",
+      "attempts": 41,
+      "success": 0,
+      "verified": 0,
+      "success_rate_pct": 0.0
+    },
+    {
+      "action": "CONTEXT_EXPANSION",
+      "attempts": 37,
+      "success": 23,
+      "verified": 23,
+      "success_rate_pct": 62.16
+    },
+    {
+      "action": "CONSTRAINED_REGENERATION",
+      "attempts": 26,
+      "success": 22,
+      "verified": 22,
+      "success_rate_pct": 84.62
+    },
+    {
+      "action": "DECOMPOSITION_REPAIR",
+      "attempts": 5,
+      "success": 1,
+      "verified": 1,
+      "success_rate_pct": 20.0
+    }
+  ],
+  "recovery_reuse": {
+    "reused_stages_mean": 2.718,
+    "reused_stages_max": 5,
+    "added_latency_ms": {
+      "n": 525,
+      "min": 0.03,
+      "p50": 57.045,
+      "mean": 69.918,
+      "p95": 177.122,
+      "max": 605.194,
+      "stdev": 64.363
+    }
+  },
+  "leading_evidence": {
+    "RETRIEVAL_FAILURE": [
+      {
+        "signal": "5 chunk(s) returned but useful_ratio=0.00",
+        "count": 27
+      },
+      {
+        "signal": "retrieval returned zero candidates",
+        "count": 24
+      },
+      {
+        "signal": "20% of retrieved chunks are explicitly superseded versions",
+        "count": 18
+      },
+      {
+        "signal": "no rule fired above threshold",
+        "count": 17
+      }
+    ],
+    "QUERY_FAILURE": [
+      {
+        "signal": "query reduced to an under-specified fragment",
+        "count": 22
+      },
+      {
+        "signal": "no rule fired above threshold",
+        "count": 22
+      },
+      {
+        "signal": "rewrite_drift=0.800 above 0.62",
+        "count": 6
+      },
+      {
+        "signal": "rewrite_drift=0.857 above 0.62",
+        "count": 6
+      }
+    ],
+    "RANKING_FAILURE": [
+      {
+        "signal": "no rule fired above threshold",
+        "count": 21
+      },
+      {
+        "signal": "reranking reduced MRR by 0.250",
+        "count": 5
+      },
+      {
+        "signal": "5 chunk(s) returned but useful_ratio=0.00",
+        "count": 4
+      },
+      {
+        "signal": "rank-1 chunk is not relevant while useful evidence exists in the candi",
+        "count": 2
+      }
+    ],
+    "CONTEXT_FAILURE": [
+      {
+        "signal": "context_tokens=40 below minimum 60",
+        "count": 23
+      },
+      {
+        "signal": "1 conflicting evidence pair(s) detected",
+        "count": 15
+      },
+      {
+        "signal": "no rule fired above threshold",
+        "count": 8
+      },
+      {
+        "signal": "context_tokens=58 below minimum 60",
+        "count": 5
+      }
+    ],
+    "GENERATION_FAILURE": [
+      {
+        "signal": "groundedness=0.000 below threshold 0.62",
+        "count": 16
+      },
+      {
+        "signal": "groundedness=0.333 below threshold 0.62",
+        "count": 7
+      },
+      {
+        "signal": "5 chunk(s) returned but useful_ratio=0.00",
+        "count": 1
+      }
+    ],
+    "INFRASTRUCTURE_FAILURE": [
+      {
+        "signal": "1 timeout event(s) recorded",
+        "count": 46
+      },
+      {
+        "signal": "1 unparseable model response(s)",
+        "count": 24
+      },
+      {
+        "signal": "2 embedding error(s)",
+        "count": 23
+      },
+      {
+        "signal": "2 timeout event(s) recorded",
+        "count": 2
+      }
+    ]
+  },
+  "experiments": {
+    "count": 8,
+    "configs": [
+      {
+        "experiment_id": "exp_205a5657f3de4c23",
+        "config_name": "abstention",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      },
+      {
+        "experiment_id": "exp_e260de8bc9be424e",
+        "config_name": "baseline",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      },
+      {
+        "experiment_id": "exp_aab9db1ea4464406",
+        "config_name": "context_failure",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      },
+      {
+        "experiment_id": "exp_5a977670539f4ae4",
+        "config_name": "full_recovery",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      },
+      {
+        "experiment_id": "exp_e3a027e6e45947a1",
+        "config_name": "generation_failure",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      },
+      {
+        "experiment_id": "exp_b826a229e296460f",
+        "config_name": "infrastructure_failure",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      },
+      {
+        "experiment_id": "exp_7492cf850b144d8c",
+        "config_name": "ranking_failure",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      },
+      {
+        "experiment_id": "exp_04b764d4dcba48b3",
+        "config_name": "retrieval_failure",
+        "seed": 42,
+        "runs": null,
+        "status": "completed"
+      }
+    ],
+    "records": [
+      {
+        "experiment_id": "exp_205a5657f3de4c23",
+        "name": "abstention",
+        "description": "Unrecoverable evidence loss: the answer-bearing document is removed from the index. No targeted recovery can restore evidence that is not in the corpus, so the bounded loop must terminate in an honest abstention.\n",
+        "dataset": "demo",
+        "fault_types": [
+          "RELEVANT_DOC_REMOVAL"
+        ],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 1,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\abstention.yaml",
+        "config_hash": "085c0bbdd101f09b68489b7de6c2f4ddda4167437a7e283b579e13c348b45972",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:12:03Z",
+        "finished_at": "2026-10-14T16:12:05Z",
+        "error": null,
+        "created_at": "2026-10-14T16:12:04.002086+00:00"
+      },
+      {
+        "experiment_id": "exp_e260de8bc9be424e",
+        "name": "baseline",
+        "description": "Healthy pipeline, no fault injection. Establishes the reference behaviour of all three modes on the offline demonstration dataset.\n",
+        "dataset": "demo",
+        "fault_types": [],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 1,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\baseline.yaml",
+        "config_hash": "90f4a178246db43ce486d79012b55ea16f6e45e76516ffc7a1c786a78d53334b",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:12:05Z",
+        "finished_at": "2026-10-14T16:12:13Z",
+        "error": null,
+        "created_at": "2026-10-14T16:12:05.820934+00:00"
+      },
+      {
+        "experiment_id": "exp_aab9db1ea4464406",
+        "name": "context_failure",
+        "description": "Two context-stage failures: the assembled context is truncated below the information need (CONTEXT_TRUNCATION) and the corpus is re-chunked so that answer sentences are split (CHUNK_FRAGMENTATION).\n",
+        "dataset": "demo",
+        "fault_types": [
+          "CONTEXT_TRUNCATION"
+        ],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 1,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\context_failure.yaml",
+        "config_hash": "453518473f562e0fd2a3703c2fcf9d8b3164211a025e9bbe043ca7bd88bffaf9",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:12:13Z",
+        "finished_at": "2026-10-14T16:12:15Z",
+        "error": null,
+        "created_at": "2026-10-14T16:12:13.293909+00:00"
+      },
+      {
+        "experiment_id": "exp_5a977670539f4ae4",
+        "name": "full_recovery",
+        "description": "Full sweep: every declared fault type against a fixed question subset, with three repetitions to expose variance. This is the table quoted in the report.\n",
+        "dataset": "demo",
+        "fault_types": [
+          "BAD_QUERY_REWRITE",
+          "LOW_TOP_K",
+          "RANKING_CORRUPTION",
+          "CHUNK_FRAGMENTATION",
+          "CONTEXT_TRUNCATION",
+          "CONFLICTING_EVIDENCE",
+          "GENERATION_CONSTRAINT_REMOVAL",
+          "STALE_DOCUMENT",
+          "AMBIGUOUS_QUERY",
+          "RETRIEVAL_TIMEOUT",
+          "EMPTY_RETRIEVAL",
+          "EMBEDDING_FAILURE",
+          "MODEL_FAILURE",
+          "QUERY_CORRUPTION",
+          "IRRELEVANT_DOC_INJECTION",
+          "RELEVANT_DOC_REMOVAL",
+          "INCOMPLETE_DECOMPOSITION"
+        ],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 3,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\full_recovery.yaml",
+        "config_hash": "d06cae64b69a4d81d3641a0d415ed19860887126224fc2fa7a7a69f6a4e3eaa5",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:12:15Z",
+        "finished_at": "2026-10-14T16:16:19Z",
+        "error": null,
+        "created_at": "2026-10-14T16:12:15.714074+00:00"
+      },
+      {
+        "experiment_id": "exp_e3a027e6e45947a1",
+        "name": "generation_failure",
+        "description": "The grounding constraint is removed from the generation prompt, so the model produces unsupported claims. The CONSTRAINED_REGENERATION recovery regenerates from the same retrieved context under restored constraints.\n",
+        "dataset": "demo",
+        "fault_types": [
+          "GENERATION_CONSTRAINT_REMOVAL"
+        ],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 1,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\generation_failure.yaml",
+        "config_hash": "cd288648f88f182b786d0cde049fafd9723bafa13eb1683c3cce743f06e2da9c",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:16:19Z",
+        "finished_at": "2026-10-14T16:16:24Z",
+        "error": null,
+        "created_at": "2026-10-14T16:16:19.246483+00:00"
+      },
+      {
+        "experiment_id": "exp_b826a229e296460f",
+        "name": "infrastructure_failure",
+        "description": "Retrieval service faults: the retrieval tool times out and the embedding backend fails. The bounded retry and the alternate BM25 path (which needs no embedding service) are the expected recoveries.\n",
+        "dataset": "demo",
+        "fault_types": [
+          "RETRIEVAL_TIMEOUT"
+        ],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 1,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\infrastructure_failure.yaml",
+        "config_hash": "6d44540de8f50212a0d1c4b515bd205973b5fad834871eba7907467e4a165f41",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:16:24Z",
+        "finished_at": "2026-10-14T16:16:27Z",
+        "error": null,
+        "created_at": "2026-10-14T16:16:24.079475+00:00"
+      },
+      {
+        "experiment_id": "exp_7492cf850b144d8c",
+        "name": "ranking_failure",
+        "description": "The reranker is replaced by one that reverses the candidate order, so retrieval finds the evidence and ranking loses it. The RERANK recovery re-orders the cached candidate pool without repeating retrieval.\n",
+        "dataset": "demo",
+        "fault_types": [
+          "RANKING_CORRUPTION"
+        ],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 1,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\ranking_failure.yaml",
+        "config_hash": "2776704bafcb4716b75b4dbf35b4fea0adcfa3f02136fd80f16d29beb706898e",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:16:27Z",
+        "finished_at": "2026-10-14T16:16:31Z",
+        "error": null,
+        "created_at": "2026-10-14T16:16:27.264397+00:00"
+      },
+      {
+        "experiment_id": "exp_04b764d4dcba48b3",
+        "name": "retrieval_failure",
+        "description": "Low-recall retrieval. The relevant document is present but the query wording does not match it, so the candidate pool does not cover the question and the QUERY_REWRITE recovery closes the vocabulary gap.\n",
+        "dataset": "demo",
+        "fault_types": [
+          "BAD_QUERY_REWRITE"
+        ],
+        "model": "mock:mock-deterministic-v1",
+        "retrieval_config": {
+          "top_k": 5,
+          "candidate_k": 12,
+          "method": "hybrid",
+          "vector_backend": "auto",
+          "embedding_backend": "hashing",
+          "embedding_dim": 384,
+          "hybrid_alpha": 0.55,
+          "rrf_k": 60,
+          "rerank_enabled": true,
+          "rerank_candidates": 10,
+          "rerank_model": "lexical-cross"
+        },
+        "recovery_config": {
+          "max_recovery_attempts": 4,
+          "max_total_latency_ms": 45000,
+          "max_llm_calls": 14,
+          "max_token_budget": 24000,
+          "max_repeated_actions": 1,
+          "max_stage_retries": 2
+        },
+        "repetitions": 1,
+        "seed": 42,
+        "mode": "mode1_normal_rag,mode2_agentic_no_recovery,mode3_agentic_with_recovery",
+        "config_path": "B:\\Ghouse\\experiments\\configs\\retrieval_failure.yaml",
+        "config_hash": "9f48e322d0247726855c924ffc770a162535866ef57f42e6200266ab027fc468",
+        "status": "completed",
+        "result_label": "DEMO / MOCK RESULTS",
+        "started_at": "2026-10-14T16:16:31Z",
+        "finished_at": "2026-10-14T16:16:36Z",
+        "error": null,
+        "created_at": "2026-10-14T16:16:31.327887+00:00"
+      }
+    ]
+  },
+  "database": {
+    "tables": [
+      "abstentions",
+      "agent_runs",
+      "agent_steps",
+      "chunks",
+      "configurations",
+      "diagnoses",
+      "documents",
+      "experiments",
+      "experiments_config",
+      "fault_injections",
+      "index_versions",
+      "metrics",
+      "models",
+      "queries",
+      "recovery_attempts",
+      "retrieval_runs",
+      "retrieved_chunks",
+      "trace_spans"
+    ],
+    "row_counts": {
+      "abstentions": 307,
+      "agent_runs": 1558,
+      "agent_steps": 18084,
+      "chunks": 49,
+      "configurations": 1,
+      "diagnoses": 1566,
+      "documents": 10,
+      "experiments": 8,
+      "experiments_config": 8,
+      "fault_injections": 810,
+      "index_versions": 0,
+      "metrics": 1232,
+      "models": 1,
+      "queries": 1558,
+      "recovery_attempts": 936,
+      "retrieval_runs": 1514,
+      "retrieved_chunks": 7964,
+      "trace_spans": 12367
+    }
+  }
+}

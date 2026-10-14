@@ -1,0 +1,15 @@
+{
+  "core": 65,
+  "core_loc": 14972,
+  "backend": 4,
+  "backend_loc": 1112,
+  "dashboard": 15,
+  "dashboard_loc": 1294,
+  "scripts": 16,
+  "scripts_loc": 2151,
+  "tests": 11,
+  "tests_loc": 2692,
+  "experiment_configs": 8,
+  "experiment_configs_loc": 126,
+  "collected_tests": 281
+}

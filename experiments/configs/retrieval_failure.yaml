@@ -1,0 +1,14 @@
+name: retrieval_failure
+description: >
+  Low-recall retrieval. The relevant document is present but the query wording
+  does not match it, so the candidate pool does not cover the question and the
+  QUERY_REWRITE recovery closes the vocabulary gap.
+seed: 42
+repetitions: 1
+dataset: demo
+fault_type: BAD_QUERY_REWRITE
+question_ids: [q001, q005, q006, q009, q014, q019]
+modes:
+  - mode1_normal_rag
+  - mode2_agentic_no_recovery
+  - mode3_agentic_with_recovery

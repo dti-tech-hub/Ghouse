@@ -1,0 +1,18 @@
+{
+  "count": 13,
+  "actions": [
+    "ABSTAIN",
+    "ALTERNATE_PATH",
+    "BOUNDED_RETRY",
+    "BROADEN_RETRIEVAL",
+    "CHUNK_EXPANSION",
+    "CONSTRAINED_REGENERATION",
+    "CONTEXT_EXPANSION",
+    "DECOMPOSITION_REPAIR",
+    "EXPAND_TOP_K",
+    "HYBRID_SEARCH",
+    "QUERY_REWRITE",
+    "RERANK",
+    "TOOL_REPAIR"
+  ]
+}

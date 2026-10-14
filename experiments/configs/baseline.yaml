@@ -1,0 +1,12 @@
+name: baseline
+description: >
+  Healthy pipeline, no fault injection. Establishes the reference behaviour of
+  all three modes on the offline demonstration dataset.
+seed: 42
+repetitions: 1
+dataset: demo
+fault_type: null
+modes:
+  - mode1_normal_rag
+  - mode2_agentic_no_recovery
+  - mode3_agentic_with_recovery

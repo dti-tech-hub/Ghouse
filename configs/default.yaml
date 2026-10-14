@@ -1,0 +1,114 @@
+# Default configuration for the Agentic RAG Failure Diagnosis & Recovery System.
+# Every value here is overridable per-experiment (experiments/configs/*.yaml).
+
+app_name: "Agentic RAG Failure Diagnosis and Recovery System"
+mode: demo
+seed: 42
+
+# Labels attached to every metrics row so demo/mock numbers are never
+# confused with real-LLM numbers (result integrity requirement).
+labels:
+  results: "DEMO / MOCK RESULTS"
+  provider_class: "mock-deterministic"
+
+thresholds:
+  # retrieval (lexical overlap thresholds are method-independent, unlike raw
+  # similarity scores whose scale differs per retrieval backend)
+  min_top_overlap: 0.34        # rank-1 chunk must cover >=34% of the query's content terms
+  min_mean_overlap: 0.12       # mean overlap across the retrieved set
+  useful_overlap: 0.20         # a chunk covering >=20% of query terms counts as "useful"
+  min_top_score: 0.12
+  min_mean_score: 0.10
+  min_score_gap: 0.01
+  min_useful_chunk_ratio: 0.40
+  max_duplicate_ratio: 0.60
+  # ranking
+  min_rerank_margin: 0.02
+  max_rank_regression_rate: 0.34
+  relevant_promotion_min_gain: 0.05
+  # context
+  min_context_tokens: 60
+  max_context_tokens: 3000
+  min_context_coverage: 0.50
+  min_source_diversity: 1
+  max_fragmentation_ratio: 0.50
+  max_conflict_score: 0.35
+  # generation
+  min_groundedness: 0.62
+  min_claim_support: 0.34
+  min_citation_coverage: 0.30
+  max_unsupported_claims: 0
+  min_answer_words: 12
+  # query understanding
+  min_query_words: 3
+  max_query_words: 90
+  ambiguous_entity_mentions: 3
+  max_rewrite_drift: 0.62
+  min_rewrite_change: 0.08
+  # agent control
+  max_repeat_actions: 1
+  max_tool_calls: 12
+
+budget:
+  max_recovery_attempts: 4
+  max_total_latency_ms: 45000
+  max_llm_calls: 14
+  max_token_budget: 24000
+  max_repeated_actions: 1
+  max_stage_retries: 2
+
+chunking:
+  chunk_size: 320
+  chunk_overlap: 60
+  separators: ["\n\n", "\n", ". ", " ", ""]
+  min_chunk_chars: 30
+
+retrieval:
+  top_k: 5
+  candidate_k: 12
+  method: hybrid
+  vector_backend: auto        # auto | faiss | numpy
+  embedding_backend: hashing  # hashing | sentence_transformer
+  embedding_dim: 384
+  hybrid_alpha: 0.55
+  rrf_k: 60
+  rerank_enabled: true
+  rerank_candidates: 10
+  rerank_model: lexical-cross
+
+generation:
+  provider: mock              # mock | ollama | openai | claude
+  model: mock-deterministic-v1
+  temperature: 0.0
+  max_tokens: 512
+  ground_answer: true
+  cite_sources: true
+  require_grounding: true
+  base_url: ""                # provider-specific default when empty
+  api_key_env: OPENAI_API_KEY
+  request_timeout_s: 30.0
+
+diagnosis:
+  rule_confidence_threshold: 0.55
+  use_llm_fallback: true
+  max_evidence_items: 8
+  temperature: 0.0
+
+agent:
+  max_steps: 8
+  enable_decomposition: true
+  decomposition_min_words: 12
+  enable_tools: true
+  tool_timeout_ms: 2000
+
+paths:
+  data_dir: "data"
+  demo_documents: "data/demo_documents"
+  demo_questions: "data/demo_questions"
+  demo_ground_truth: "data/demo_ground_truth"
+  storage_dir: "storage"
+  index_dir: "storage/index"
+  upload_dir: "storage/uploads"
+  db_path: "storage/agentic_rag.db"
+  experiment_config_dir: "experiments/configs"
+  experiment_results_dir: "experiments/results"

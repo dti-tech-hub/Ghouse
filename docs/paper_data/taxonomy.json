@@ -1,0 +1,591 @@
+{
+  "stages": [
+    "query_understanding",
+    "query_decomposition",
+    "retrieval",
+    "ranking",
+    "context_assembly",
+    "generation",
+    "validation",
+    "agent_control",
+    "infrastructure"
+  ],
+  "subtype_count": 33,
+  "count_by_failure_class": {
+    "AGENT_CONTROL_FAILURE": 4,
+    "CONTEXT_FAILURE": 5,
+    "GENERATION_FAILURE": 4,
+    "INFRASTRUCTURE_FAILURE": 5,
+    "QUERY_FAILURE": 4,
+    "RANKING_FAILURE": 3,
+    "RESOURCE_FAILURE": 3,
+    "RETRIEVAL_FAILURE": 5
+  },
+  "subtypes_by_class": {
+    "AGENT_CONTROL_FAILURE": [
+      "incorrect_workflow",
+      "repeated_action",
+      "unnecessary_tool_call",
+      "wrong_tool_selection"
+    ],
+    "CONTEXT_FAILURE": [
+      "conflicting_evidence",
+      "excessive_context",
+      "fragmented_context",
+      "insufficient_context",
+      "missing_evidence"
+    ],
+    "GENERATION_FAILURE": [
+      "contradiction",
+      "hallucination",
+      "incomplete_answer",
+      "unsupported_claim"
+    ],
+    "INFRASTRUCTURE_FAILURE": [
+      "embedding_failure",
+      "malformed_response",
+      "model_failure",
+      "retrieval_service_unavailable",
+      "timeout"
+    ],
+    "QUERY_FAILURE": [
+      "ambiguous_query",
+      "incomplete_decomposition",
+      "incorrect_rewrite",
+      "over_decomposition"
+    ],
+    "RANKING_FAILURE": [
+      "irrelevant_ranked_high",
+      "poor_reranking",
+      "relevant_ranked_low"
+    ],
+    "RESOURCE_FAILURE": [
+      "budget_exhausted",
+      "latency_budget_exceeded",
+      "token_budget_exceeded"
+    ],
+    "RETRIEVAL_FAILURE": [
+      "empty_retrieval",
+      "irrelevant_retrieval",
+      "low_recall",
+      "no_useful_evidence",
+      "stale_documents"
+    ]
+  },
+  "subtypes": {
+    "ambiguous_query": {
+      "failure_class": "QUERY_FAILURE",
+      "stage": "query_understanding",
+      "default_severity": "medium",
+      "recovery_actions": [
+        "QUERY_REWRITE",
+        "DECOMPOSITION_REPAIR",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "query_too_short",
+        "multiple_entity_mentions",
+        "no_anchor_terms"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "budget_exhausted": {
+      "failure_class": "RESOURCE_FAILURE",
+      "stage": "agent_control",
+      "default_severity": "high",
+      "recovery_actions": [
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "attempts_remaining_zero"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "conflicting_evidence": {
+      "failure_class": "CONTEXT_FAILURE",
+      "stage": "context_assembly",
+      "default_severity": "high",
+      "recovery_actions": [
+        "RERANK",
+        "CHUNK_EXPANSION",
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "contradiction_detected",
+        "negation_conflict",
+        "numeric_conflict"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "ranking"
+    },
+    "contradiction": {
+      "failure_class": "GENERATION_FAILURE",
+      "stage": "generation",
+      "default_severity": "critical",
+      "recovery_actions": [
+        "CONSTRAINED_REGENERATION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "answer_evidence_negation_conflict"
+      ],
+      "cost_hint": 2,
+      "reusable_stage": "context_assembly"
+    },
+    "embedding_failure": {
+      "failure_class": "INFRASTRUCTURE_FAILURE",
+      "stage": "infrastructure",
+      "default_severity": "critical",
+      "recovery_actions": [
+        "ALTERNATE_PATH",
+        "BOUNDED_RETRY",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "embedding_exception",
+        "dimension_mismatch"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "empty_retrieval": {
+      "failure_class": "RETRIEVAL_FAILURE",
+      "stage": "retrieval",
+      "default_severity": "critical",
+      "recovery_actions": [
+        "BOUNDED_RETRY",
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "result_count_zero"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "query_understanding"
+    },
+    "excessive_context": {
+      "failure_class": "CONTEXT_FAILURE",
+      "stage": "context_assembly",
+      "default_severity": "medium",
+      "recovery_actions": [
+        "RERANK",
+        "CONTEXT_EXPANSION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "context_tokens_above_maximum",
+        "relevant_chunk_buried",
+        "low_precision_at_depth"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "ranking"
+    },
+    "fragmented_context": {
+      "failure_class": "CONTEXT_FAILURE",
+      "stage": "context_assembly",
+      "default_severity": "high",
+      "recovery_actions": [
+        "CHUNK_EXPANSION",
+        "CONTEXT_EXPANSION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "high_fragmentation_ratio",
+        "adjacent_chunk_gap",
+        "coverage_low"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "ranking"
+    },
+    "hallucination": {
+      "failure_class": "GENERATION_FAILURE",
+      "stage": "generation",
+      "default_severity": "critical",
+      "recovery_actions": [
+        "CONSTRAINED_REGENERATION",
+        "CONTEXT_EXPANSION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "groundedness_below_threshold",
+        "unsupported_claims_present"
+      ],
+      "cost_hint": 2,
+      "reusable_stage": "context_assembly"
+    },
+    "incomplete_answer": {
+      "failure_class": "GENERATION_FAILURE",
+      "stage": "generation",
+      "default_severity": "medium",
+      "recovery_actions": [
+        "CONSTRAINED_REGENERATION",
+        "CONTEXT_EXPANSION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "subquestion_coverage_below_1"
+      ],
+      "cost_hint": 2,
+      "reusable_stage": "context_assembly"
+    },
+    "incomplete_decomposition": {
+      "failure_class": "QUERY_FAILURE",
+      "stage": "query_decomposition",
+      "default_severity": "high",
+      "recovery_actions": [
+        "DECOMPOSITION_REPAIR",
+        "QUERY_REWRITE",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "subquery_count_below_expected",
+        "constraint_not_covered"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "incorrect_rewrite": {
+      "failure_class": "QUERY_FAILURE",
+      "stage": "query_understanding",
+      "default_severity": "high",
+      "recovery_actions": [
+        "QUERY_REWRITE",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "rewrite_drift_high",
+        "key_terms_dropped"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "incorrect_workflow": {
+      "failure_class": "AGENT_CONTROL_FAILURE",
+      "stage": "agent_control",
+      "default_severity": "high",
+      "recovery_actions": [
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "dead_end_state"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "insufficient_context": {
+      "failure_class": "CONTEXT_FAILURE",
+      "stage": "context_assembly",
+      "default_severity": "high",
+      "recovery_actions": [
+        "CONTEXT_EXPANSION",
+        "EXPAND_TOP_K",
+        "CHUNK_EXPANSION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "context_tokens_below_minimum",
+        "coverage_below_threshold"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "ranking"
+    },
+    "irrelevant_ranked_high": {
+      "failure_class": "RANKING_FAILURE",
+      "stage": "ranking",
+      "default_severity": "medium",
+      "recovery_actions": [
+        "RERANK",
+        "CHUNK_EXPANSION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "irrelevant_at_rank_1",
+        "score_margin_small"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "irrelevant_retrieval": {
+      "failure_class": "RETRIEVAL_FAILURE",
+      "stage": "retrieval",
+      "default_severity": "high",
+      "recovery_actions": [
+        "QUERY_REWRITE",
+        "HYBRID_SEARCH",
+        "RERANK",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "top_score_low",
+        "query_chunk_overlap_near_zero"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "query_understanding"
+    },
+    "latency_budget_exceeded": {
+      "failure_class": "RESOURCE_FAILURE",
+      "stage": "agent_control",
+      "default_severity": "high",
+      "recovery_actions": [
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "latency_budget_remaining_zero"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "low_recall": {
+      "failure_class": "RETRIEVAL_FAILURE",
+      "stage": "retrieval",
+      "default_severity": "high",
+      "recovery_actions": [
+        "QUERY_REWRITE",
+        "HYBRID_SEARCH",
+        "EXPAND_TOP_K",
+        "BROADEN_RETRIEVAL",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "mean_score_below_threshold",
+        "score_gap_small",
+        "no_lexical_overlap"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "query_understanding"
+    },
+    "malformed_response": {
+      "failure_class": "INFRASTRUCTURE_FAILURE",
+      "stage": "infrastructure",
+      "default_severity": "high",
+      "recovery_actions": [
+        "BOUNDED_RETRY",
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "json_parse_error",
+        "schema_violation"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "missing_evidence": {
+      "failure_class": "CONTEXT_FAILURE",
+      "stage": "context_assembly",
+      "default_severity": "high",
+      "recovery_actions": [
+        "CONTEXT_EXPANSION",
+        "EXPAND_TOP_K",
+        "HYBRID_SEARCH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "constraint_coverage_below_1"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "ranking"
+    },
+    "model_failure": {
+      "failure_class": "INFRASTRUCTURE_FAILURE",
+      "stage": "infrastructure",
+      "default_severity": "critical",
+      "recovery_actions": [
+        "BOUNDED_RETRY",
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "provider_error",
+        "empty_completion"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "no_useful_evidence": {
+      "failure_class": "RETRIEVAL_FAILURE",
+      "stage": "retrieval",
+      "default_severity": "critical",
+      "recovery_actions": [
+        "QUERY_REWRITE",
+        "HYBRID_SEARCH",
+        "EXPAND_TOP_K",
+        "BROADEN_RETRIEVAL",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "zero_useful_chunks"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "query_understanding"
+    },
+    "over_decomposition": {
+      "failure_class": "QUERY_FAILURE",
+      "stage": "query_decomposition",
+      "default_severity": "low",
+      "recovery_actions": [
+        "DECOMPOSITION_REPAIR",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "redundant_subqueries"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "poor_reranking": {
+      "failure_class": "RANKING_FAILURE",
+      "stage": "ranking",
+      "default_severity": "medium",
+      "recovery_actions": [
+        "RERANK",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "rerank_score_flat",
+        "mrr_regression_after_rerank"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "relevant_ranked_low": {
+      "failure_class": "RANKING_FAILURE",
+      "stage": "ranking",
+      "default_severity": "high",
+      "recovery_actions": [
+        "RERANK",
+        "EXPAND_TOP_K",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "relevant_at_rank_beyond_k",
+        "rank_regression"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "repeated_action": {
+      "failure_class": "AGENT_CONTROL_FAILURE",
+      "stage": "agent_control",
+      "default_severity": "high",
+      "recovery_actions": [
+        "TOOL_REPAIR",
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "duplicate_action_signature",
+        "max_repeats_exceeded"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "retrieval_service_unavailable": {
+      "failure_class": "INFRASTRUCTURE_FAILURE",
+      "stage": "infrastructure",
+      "default_severity": "critical",
+      "recovery_actions": [
+        "ALTERNATE_PATH",
+        "BOUNDED_RETRY",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "service_unavailable",
+        "exception_type"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "stale_documents": {
+      "failure_class": "RETRIEVAL_FAILURE",
+      "stage": "retrieval",
+      "default_severity": "medium",
+      "recovery_actions": [
+        "ALTERNATE_PATH",
+        "BOUNDED_RETRY",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "stale_timestamp",
+        "superseded_document"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": "retrieval"
+    },
+    "timeout": {
+      "failure_class": "INFRASTRUCTURE_FAILURE",
+      "stage": "infrastructure",
+      "default_severity": "high",
+      "recovery_actions": [
+        "BOUNDED_RETRY",
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "latency_exceeds_budget"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "token_budget_exceeded": {
+      "failure_class": "RESOURCE_FAILURE",
+      "stage": "agent_control",
+      "default_severity": "high",
+      "recovery_actions": [
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "token_budget_remaining_zero"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "unnecessary_tool_call": {
+      "failure_class": "AGENT_CONTROL_FAILURE",
+      "stage": "agent_control",
+      "default_severity": "low",
+      "recovery_actions": [
+        "TOOL_REPAIR"
+      ],
+      "evidence_hints": [
+        "unused_tool_results"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    },
+    "unsupported_claim": {
+      "failure_class": "GENERATION_FAILURE",
+      "stage": "generation",
+      "default_severity": "high",
+      "recovery_actions": [
+        "CONSTRAINED_REGENERATION",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "claim_support_below_threshold",
+        "citation_coverage_low"
+      ],
+      "cost_hint": 2,
+      "reusable_stage": "context_assembly"
+    },
+    "wrong_tool_selection": {
+      "failure_class": "AGENT_CONTROL_FAILURE",
+      "stage": "agent_control",
+      "default_severity": "medium",
+      "recovery_actions": [
+        "TOOL_REPAIR",
+        "ALTERNATE_PATH",
+        "ABSTAIN"
+      ],
+      "evidence_hints": [
+        "tool_result_relevance_zero"
+      ],
+      "cost_hint": 1,
+      "reusable_stage": null
+    }
+  }
+}

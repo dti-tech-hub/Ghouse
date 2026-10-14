@@ -1,0 +1,307 @@
+[
+  {
+    "fault_type": "QUERY_CORRUPTION",
+    "title": "Query corruption (word dropout / noise injection)",
+    "target_stage": "query_understanding",
+    "category": "semantic",
+    "description": "Drop, duplicate or corrupt content words of the user query before it reaches retrieval, simulating typos, truncation and ASR/OCR noise.",
+    "expected_symptom": "retrieval returns topically unrelated chunks",
+    "expected_failure_class": "RETRIEVAL_FAILURE",
+    "expected_subtype": "low_recall",
+    "severity": "high",
+    "default_parameters": {
+      "dropout": 0.75,
+      "seed": 7
+    },
+    "possible_subtypes": [
+      "low_recall",
+      "irrelevant_retrieval"
+    ]
+  },
+  {
+    "fault_type": "BAD_QUERY_REWRITE",
+    "title": "Bad query rewrite (semantic drift)",
+    "target_stage": "query_understanding",
+    "category": "agentic",
+    "description": "Replace the user's question with a drifting paraphrase that keeps none of the anchor terms, so retrieval runs on the wrong topic.",
+    "expected_symptom": "retrieved evidence is on a different topic than the question",
+    "expected_failure_class": "QUERY_FAILURE",
+    "expected_subtype": "incorrect_rewrite",
+    "severity": "high",
+    "default_parameters": {
+      "drift": 0.85
+    },
+    "possible_subtypes": [
+      "incorrect_rewrite",
+      "low_recall"
+    ]
+  },
+  {
+    "fault_type": "RELEVANT_DOC_REMOVAL",
+    "title": "Relevant document removal",
+    "target_stage": "retrieval",
+    "category": "data",
+    "description": "Remove every chunk of the document that contains the answer from the searchable index, simulating a corpus that genuinely lacks the evidence.",
+    "expected_symptom": "no chunk can answer the question at any retrieval effort",
+    "expected_failure_class": "RETRIEVAL_FAILURE",
+    "expected_subtype": "no_useful_evidence",
+    "severity": "critical",
+    "default_parameters": {
+      "remove_all_ground_truth": true
+    },
+    "possible_subtypes": [
+      "no_useful_evidence",
+      "low_recall"
+    ]
+  },
+  {
+    "fault_type": "IRRELEVANT_DOC_INJECTION",
+    "title": "Irrelevant document injection",
+    "target_stage": "retrieval",
+    "category": "data",
+    "description": "Replace the result list with chunks that share no vocabulary with the query.",
+    "expected_symptom": "top-k results are unrelated to the question",
+    "expected_failure_class": "RETRIEVAL_FAILURE",
+    "expected_subtype": "irrelevant_retrieval",
+    "severity": "high",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "irrelevant_retrieval",
+      "no_useful_evidence"
+    ]
+  },
+  {
+    "fault_type": "LOW_TOP_K",
+    "title": "Low top-k truncation",
+    "target_stage": "retrieval",
+    "category": "configuration",
+    "description": "Truncate the candidate list to an unrealistically small top-k.",
+    "expected_symptom": "relevant chunk exists in the corpus but falls outside the cut",
+    "expected_failure_class": "RANKING_FAILURE",
+    "expected_subtype": "relevant_ranked_low",
+    "severity": "medium",
+    "default_parameters": {
+      "top_k_cap": 1
+    },
+    "possible_subtypes": [
+      "relevant_ranked_low",
+      "insufficient_context"
+    ]
+  },
+  {
+    "fault_type": "RANKING_CORRUPTION",
+    "title": "Ranking / reranking corruption",
+    "target_stage": "ranking",
+    "category": "algorithmic",
+    "description": "Replace the reranker with one that inverts or randomises the candidate order.",
+    "expected_symptom": "relevant chunks move down, irrelevant chunks rise",
+    "expected_failure_class": "RANKING_FAILURE",
+    "expected_subtype": "poor_reranking",
+    "severity": "medium",
+    "default_parameters": {
+      "mode": "reverse"
+    },
+    "possible_subtypes": [
+      "poor_reranking",
+      "irrelevant_ranked_high",
+      "relevant_ranked_low"
+    ]
+  },
+  {
+    "fault_type": "CHUNK_FRAGMENTATION",
+    "title": "Chunk fragmentation (aggressive re-chunking)",
+    "target_stage": "context_assembly",
+    "category": "configuration",
+    "description": "Re-chunk the corpus with a tiny window so answer sentences are split across neighbouring chunks and become unusable in isolation.",
+    "expected_symptom": "retrieved chunks individually cover only part of the evidence",
+    "expected_failure_class": "CONTEXT_FAILURE",
+    "expected_subtype": "fragmented_context",
+    "severity": "high",
+    "default_parameters": {
+      "chunk_size": 50,
+      "chunk_overlap": 6
+    },
+    "possible_subtypes": [
+      "fragmented_context",
+      "insufficient_context"
+    ]
+  },
+  {
+    "fault_type": "CONTEXT_TRUNCATION",
+    "title": "Context truncation (too few tokens)",
+    "target_stage": "context_assembly",
+    "category": "configuration",
+    "description": "Truncate the assembled context to a tiny token budget.",
+    "expected_symptom": "context cannot cover the question's constraints",
+    "expected_failure_class": "CONTEXT_FAILURE",
+    "expected_subtype": "insufficient_context",
+    "severity": "high",
+    "default_parameters": {
+      "max_context_tokens": 40,
+      "max_chunks": 1
+    },
+    "possible_subtypes": [
+      "insufficient_context",
+      "incomplete_answer"
+    ]
+  },
+  {
+    "fault_type": "CONFLICTING_EVIDENCE",
+    "title": "Conflicting evidence injection",
+    "target_stage": "context_assembly",
+    "category": "data",
+    "description": "Inject a decoy chunk that negates or contradicts the key numeric/entity claim of the supporting evidence.",
+    "expected_symptom": "context contains mutually inconsistent statements",
+    "expected_failure_class": "CONTEXT_FAILURE",
+    "expected_subtype": "conflicting_evidence",
+    "severity": "high",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "conflicting_evidence"
+    ]
+  },
+  {
+    "fault_type": "STALE_DOCUMENT",
+    "title": "Stale document (superseded version)",
+    "target_stage": "retrieval",
+    "category": "data",
+    "description": "Pin the search to an outdated document version instead of the current one.",
+    "expected_symptom": "evidence is outdated but structurally valid",
+    "expected_failure_class": "RETRIEVAL_FAILURE",
+    "expected_subtype": "stale_documents",
+    "severity": "medium",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "stale_documents"
+    ]
+  },
+  {
+    "fault_type": "GENERATION_CONSTRAINT_REMOVAL",
+    "title": "Generation grounding-constraint removal",
+    "target_stage": "generation",
+    "category": "agentic",
+    "description": "Disable the grounding instruction so the generator is free to produce content that is not entailed by the retrieved evidence.",
+    "expected_symptom": "answer contains unsupported claims and no citations",
+    "expected_failure_class": "GENERATION_FAILURE",
+    "expected_subtype": "hallucination",
+    "severity": "critical",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "hallucination",
+      "unsupported_claim"
+    ]
+  },
+  {
+    "fault_type": "TOOL_TIMEOUT",
+    "title": "Tool timeout (retrieval tool)",
+    "target_stage": "retrieval",
+    "category": "infrastructure",
+    "description": "Make the retrieval tool exceed its time budget.",
+    "expected_symptom": "stage exceeds latency budget",
+    "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+    "expected_subtype": "timeout",
+    "severity": "high",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "timeout"
+    ]
+  },
+  {
+    "fault_type": "RETRIEVAL_TIMEOUT",
+    "title": "Retrieval service timeout",
+    "target_stage": "infrastructure",
+    "category": "infrastructure",
+    "description": "The vector store becomes unreachable / times out mid-request.",
+    "expected_symptom": "retrieval raises a timeout before returning any result",
+    "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+    "expected_subtype": "timeout",
+    "severity": "high",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "timeout",
+      "retrieval_service_unavailable"
+    ]
+  },
+  {
+    "fault_type": "EMPTY_RETRIEVAL",
+    "title": "Empty retrieval result",
+    "target_stage": "retrieval",
+    "category": "infrastructure",
+    "description": "Retrieval returns zero candidates.",
+    "expected_symptom": "zero results returned to the ranking stage",
+    "expected_failure_class": "RETRIEVAL_FAILURE",
+    "expected_subtype": "empty_retrieval",
+    "severity": "critical",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "empty_retrieval",
+      "no_useful_evidence"
+    ]
+  },
+  {
+    "fault_type": "EMBEDDING_FAILURE",
+    "title": "Embedding backend failure",
+    "target_stage": "infrastructure",
+    "category": "infrastructure",
+    "description": "The embedding backend raises, producing dimension/NaN vectors.",
+    "expected_symptom": "embedding error recorded; dense retrieval unusable",
+    "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+    "expected_subtype": "embedding_failure",
+    "severity": "critical",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "embedding_failure"
+    ]
+  },
+  {
+    "fault_type": "MODEL_FAILURE",
+    "title": "Malformed model response",
+    "target_stage": "infrastructure",
+    "category": "infrastructure",
+    "description": "The LLM returns output that cannot be parsed / is empty.",
+    "expected_symptom": "parse error on model response",
+    "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+    "expected_subtype": "malformed_response",
+    "severity": "high",
+    "default_parameters": {},
+    "possible_subtypes": [
+      "malformed_response",
+      "model_failure"
+    ]
+  },
+  {
+    "fault_type": "AMBIGUOUS_QUERY",
+    "title": "Ambiguous query injection",
+    "target_stage": "query_understanding",
+    "category": "agentic",
+    "description": "Reduce the query to an under-specified fragment before processing.",
+    "expected_symptom": "query under-specified at query-understanding time",
+    "expected_failure_class": "QUERY_FAILURE",
+    "expected_subtype": "ambiguous_query",
+    "severity": "medium",
+    "default_parameters": {
+      "keep_words": 2
+    },
+    "possible_subtypes": [
+      "ambiguous_query"
+    ]
+  },
+  {
+    "fault_type": "INCOMPLETE_DECOMPOSITION",
+    "title": "Incomplete query decomposition",
+    "target_stage": "query_decomposition",
+    "category": "agentic",
+    "description": "Drop all but the first sub-question of a complex question.",
+    "expected_symptom": "sub-questions cover only part of the question",
+    "expected_failure_class": "QUERY_FAILURE",
+    "expected_subtype": "incomplete_decomposition",
+    "severity": "high",
+    "default_parameters": {
+      "keep": 1
+    },
+    "possible_subtypes": [
+      "incomplete_decomposition",
+      "missing_evidence"
+    ]
+  }
+]

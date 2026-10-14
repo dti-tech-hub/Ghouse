@@ -1,0 +1,14 @@
+name: abstention
+description: >
+  Unrecoverable evidence loss: the answer-bearing document is removed from the
+  index. No targeted recovery can restore evidence that is not in the corpus,
+  so the bounded loop must terminate in an honest abstention.
+seed: 42
+repetitions: 1
+dataset: demo
+fault_type: RELEVANT_DOC_REMOVAL
+question_ids: [q001, q004, q010, q019]
+modes:
+  - mode1_normal_rag
+  - mode2_agentic_no_recovery
+  - mode3_agentic_with_recovery

@@ -1,0 +1,297 @@
+{
+  "by_mode": [
+    {
+      "mode": "mode1_normal_rag",
+      "runs": 361,
+      "status_counts": {
+        "success": 361
+      },
+      "abstention_rate_pct": 0.0,
+      "runs_with_faults": 0,
+      "groundedness": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "baseline_groundedness": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "citation_coverage": {
+        "mean": 0.5967,
+        "p50": 0.6,
+        "p95": 0.6
+      },
+      "context_coverage": {
+        "mean": 0.8079,
+        "p50": 0.7778,
+        "p95": 1.0
+      },
+      "useful_ratio": {
+        "mean": 0.8676,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "retrieval_recall": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "retrieval_mrr": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "total_latency_ms": {
+        "mean": 116.795,
+        "p50": 102.791,
+        "p95": 156.625
+      },
+      "baseline_latency_ms": {
+        "mean": 116.795,
+        "p50": 102.791,
+        "p95": 156.625
+      },
+      "added_latency_ms": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "llm_calls": {
+        "mean": 1.0,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "tokens_used": {
+        "mean": 1333.3657,
+        "p50": 1316.0,
+        "p95": 1400.0
+      },
+      "cost": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "cost_per_recovery": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "recovery_attempts": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "successful_recoveries": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "failures_detected": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      }
+    },
+    {
+      "mode": "mode2_agentic_no_recovery",
+      "runs": 361,
+      "status_counts": {
+        "success": 359,
+        "failed": 2
+      },
+      "abstention_rate_pct": 0.0,
+      "runs_with_faults": 0,
+      "groundedness": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "baseline_groundedness": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "citation_coverage": {
+        "mean": 0.5956,
+        "p50": 0.6,
+        "p95": 0.6
+      },
+      "context_coverage": {
+        "mean": 0.8078,
+        "p50": 0.7778,
+        "p95": 1.0
+      },
+      "useful_ratio": {
+        "mean": 0.867,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "retrieval_recall": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "retrieval_mrr": {
+        "mean": 0.9945,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "total_latency_ms": {
+        "mean": 175.2997,
+        "p50": 105.583,
+        "p95": 161.167
+      },
+      "baseline_latency_ms": {
+        "mean": 175.2997,
+        "p50": 105.583,
+        "p95": 161.167
+      },
+      "added_latency_ms": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "llm_calls": {
+        "mean": 1.0028,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "tokens_used": {
+        "mean": 1333.6731,
+        "p50": 1316.0,
+        "p95": 1400.0
+      },
+      "cost": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "cost_per_recovery": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "recovery_attempts": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "successful_recoveries": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "failures_detected": {
+        "mean": 0.0055,
+        "p50": 0.0,
+        "p95": 0.0
+      }
+    },
+    {
+      "mode": "mode3_agentic_with_recovery",
+      "runs": 364,
+      "status_counts": {
+        "success": 86,
+        "recovered": 154,
+        "abstained": 124
+      },
+      "abstention_rate_pct": 34.07,
+      "runs_with_faults": 339,
+      "groundedness": {
+        "mean": 0.8516,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "baseline_groundedness": {
+        "mean": 0.7198,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "citation_coverage": {
+        "mean": 0.4671,
+        "p50": 0.6,
+        "p95": 1.0
+      },
+      "context_coverage": {
+        "mean": 0.6879,
+        "p50": 0.7667,
+        "p95": 1.0
+      },
+      "useful_ratio": {
+        "mean": 0.7275,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "retrieval_recall": {
+        "mean": 0.7895,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "retrieval_mrr": {
+        "mean": 0.741,
+        "p50": 1.0,
+        "p95": 1.0
+      },
+      "total_latency_ms": {
+        "mean": 211.8038,
+        "p50": 147.6255,
+        "p95": 585.05
+      },
+      "baseline_latency_ms": {
+        "mean": 91.5488,
+        "p50": 89.901,
+        "p95": 171.138
+      },
+      "added_latency_ms": {
+        "mean": 120.2549,
+        "p50": 82.9575,
+        "p95": 446.799
+      },
+      "llm_calls": {
+        "mean": 1.8819,
+        "p50": 2.0,
+        "p95": 4.0
+      },
+      "tokens_used": {
+        "mean": 2621.5962,
+        "p50": 2152.0,
+        "p95": 6932.0
+      },
+      "cost": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "cost_per_recovery": {
+        "mean": 0.0,
+        "p50": 0.0,
+        "p95": 0.0
+      },
+      "recovery_attempts": {
+        "mean": 1.0302,
+        "p50": 1.0,
+        "p95": 3.0
+      },
+      "successful_recoveries": {
+        "mean": 0.4231,
+        "p50": 0.0,
+        "p95": 1.0
+      },
+      "failures_detected": {
+        "mean": 0.9918,
+        "p50": 1.0,
+        "p95": 2.0
+      }
+    }
+  ],
+  "groundedness_delta_mode3": {
+    "n": 364,
+    "mean_delta": 0.1319,
+    "improved": 52,
+    "worsened": 0,
+    "unchanged": 312,
+    "improved_pct": 14.29
+  }
+}

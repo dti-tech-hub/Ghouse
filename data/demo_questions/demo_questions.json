@@ -1,0 +1,251 @@
+{
+  "description": "Offline demonstration dataset. Every question has a reference answer and the keyword set used to identify answer-bearing chunks.",
+  "questions": [
+    {
+      "id": "q001",
+      "question": "Within how many minutes must a Severity 1 incident be acknowledged by the on-call engineer?",
+      "answer": "A Severity 1 incident must be acknowledged by the on-call engineer within 5 minutes.",
+      "answer_keywords": ["severity", "incident", "acknowledged", "5", "minutes"],
+      "relevant_documents": ["incident_response_runbook.md"],
+      "source_document": "incident_response_runbook.md",
+      "category": "retrieval",
+      "difficulty": "easy",
+      "notes": "Direct lexical match - healthy RAG baseline."
+    },
+    {
+      "id": "q002",
+      "question": "How long are backups retained, and how often is a restore drill carried out?",
+      "answer": "Backups are encrypted at rest and retained for 35 days, and a restore drill is performed every quarter.",
+      "answer_keywords": ["backups", "35", "days", "restore", "drill", "quarter"],
+      "relevant_documents": ["remote_work_policy.md"],
+      "source_document": "remote_work_policy.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q003",
+      "question": "What is the full refund window for customers, and what happens after it?",
+      "answer": "Customers may request a full refund within 30 days of purchase; after 30 days only a proportional refund for unused service days is issued.",
+      "answer_keywords": ["refund", "30", "days", "proportional", "purchase"],
+      "relevant_documents": ["refund_terms.md"],
+      "source_document": "refund_terms.md",
+      "category": "context",
+      "difficulty": "medium",
+      "notes": "Needs two related clauses from the same section."
+    },
+    {
+      "id": "q004",
+      "question": "How many days of annual leave do full-time employees receive and how much can be carried over?",
+      "answer": "Full-time employees receive 25 days of paid annual leave and up to 5 days may be carried into the next year.",
+      "answer_keywords": ["annual", "leave", "25", "days", "5", "carried"],
+      "relevant_documents": ["leave_and_compensation.md"],
+      "source_document": "leave_and_compensation.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q005",
+      "question": "After how many failed attempts must a service stop retrying a downstream call?",
+      "answer": "Services must not retry a failed downstream call more than 3 times; after 3 failed attempts the circuit breaker opens.",
+      "answer_keywords": ["retry", "3", "times", "circuit", "breaker", "opens"],
+      "relevant_documents": ["incident_response_runbook.md"],
+      "source_document": "incident_response_runbook.md",
+      "category": "ranking",
+      "difficulty": "medium",
+      "notes": "The words retry/attempt also appear in the observability standards; ranking matters."
+    },
+    {
+      "id": "q006",
+      "question": "What notice period is required to cancel a subscription without a partial charge?",
+      "answer": "A cancellation must be submitted at least 14 days before the next billing date.",
+      "answer_keywords": ["cancellation", "14", "days", "billing", "50", "percent"],
+      "relevant_documents": ["refund_terms.md"],
+      "source_document": "refund_terms.md",
+      "category": "generation",
+      "difficulty": "medium",
+      "notes": "Used for the generation-constraint-removal demo."
+    },
+    {
+      "id": "q007",
+      "question": "How often are vendors that process customer data audited, and how often are the others audited?",
+      "answer": "Vendors processing customer data are audited every 12 months; all other vendors are audited every 24 months.",
+      "answer_keywords": ["vendors", "customer", "data", "12", "months", "24", "months", "audit"],
+      "relevant_documents": ["vendor_procurement.md"],
+      "source_document": "vendor_procurement.md",
+      "category": "context",
+      "difficulty": "hard",
+      "notes": "Two numeric facts in one sentence."
+    },
+    {
+      "id": "q008",
+      "question": "What are the four stages of the standard interview process?",
+      "answer": "The standard interview process has 4 stages: recruiter screen, technical screen, panel interview and the values interview.",
+      "answer_keywords": ["4", "stages", "recruiter", "screen", "technical", "panel", "values"],
+      "relevant_documents": ["hiring_handbook.md"],
+      "source_document": "hiring_handbook.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q009",
+      "question": "When does the 95th percentile latency alert fire, and how long is its window?",
+      "answer": "Latency alerts fire when 95th percentile latency exceeds 300 milliseconds over a 5 minute window.",
+      "answer_keywords": ["latency", "95th", "percentile", "300", "milliseconds", "5", "minute", "window"],
+      "relevant_documents": ["observability_standards.md"],
+      "source_document": "observability_standards.md",
+      "category": "retrieval",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q010",
+      "question": "How quickly must all access be revoked when an employee leaves?",
+      "answer": "When an employee leaves, all access is revoked within 24 hours of the leaving date.",
+      "answer_keywords": ["access", "revoked", "24", "hours", "leaving"],
+      "relevant_documents": ["access_control_standard.md"],
+      "source_document": "access_control_standard.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q011",
+      "question": "What is the first response target for the Enterprise plan and how does it compare with the Free plan?",
+      "answer": "The Enterprise plan targets a first response within 4 hours, while the Free plan targets 48 hours.",
+      "answer_keywords": ["first", "response", "Enterprise", "4", "hours", "Free", "48", "hours", "plan"],
+      "relevant_documents": ["support_sla.md"],
+      "source_document": "support_sla.md",
+      "category": "comparison",
+      "difficulty": "hard",
+      "is_complex": true
+    },
+    {
+      "id": "q012",
+      "question": "During which hours may production deployments happen, and who approves an exception?",
+      "answer": "Production deployments are permitted only between 10:00 and 16:00 UTC on weekdays; exceptions require Release Manager approval.",
+      "answer_keywords": ["deployments", "10:00", "16:00", "UTC", "weekdays", "Release", "Manager"],
+      "relevant_documents": ["release_management.md"],
+      "source_document": "release_management.md",
+      "category": "retrieval",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q013",
+      "question": "What is the minimum password length and how many previous passwords must not be reused?",
+      "answer": "Passwords must be at least 14 characters long and must not reuse any of the last 5 passwords.",
+      "answer_keywords": ["password", "14", "characters", "last", "5", "passwords", "reuse"],
+      "relevant_documents": ["access_control_standard.md"],
+      "source_document": "access_control_standard.md",
+      "category": "generation",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q014",
+      "question": "What happens to a deployment that pushes the error rate above 2 percent, and within what time?",
+      "answer": "Any deployment that increases the error rate above 2 percent must be rolled back within 10 minutes.",
+      "answer_keywords": ["deployment", "error", "rate", "2", "percent", "rolled", "back", "10", "minutes"],
+      "relevant_documents": ["release_management.md"],
+      "source_document": "release_management.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q015",
+      "question": "How long are vendor accounts kept inactive before they are disabled?",
+      "answer": "Vendor accounts that are inactive for more than 30 days are disabled automatically.",
+      "answer_keywords": ["vendor", "accounts", "inactive", "30", "days", "disabled"],
+      "relevant_documents": ["vendor_procurement.md"],
+      "source_document": "vendor_procurement.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q016",
+      "question": "When must a written postmortem be completed for a severity incident?",
+      "answer": "A written postmortem is required for every Severity 1 and Severity 2 incident and must be completed within 14 days.",
+      "answer_keywords": ["postmortem", "Severity", "1", "2", "14", "days"],
+      "relevant_documents": ["incident_response_runbook.md"],
+      "source_document": "incident_response_runbook.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q017",
+      "question": "What is the target time to hire and how long does an offer remain valid?",
+      "answer": "The target time from approval to accepted offer is 35 days, and offers expire after 7 calendar days.",
+      "answer_keywords": ["time", "hire", "35", "days", "offers", "expire", "7", "calendar", "days"],
+      "relevant_documents": ["hiring_handbook.md"],
+      "source_document": "hiring_handbook.md",
+      "category": "context",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q018",
+      "question": "How long is application data retained after the last interview stage?",
+      "answer": "Application data is retained for 180 days after the last interview stage, after which all candidate records are deleted.",
+      "answer_keywords": ["Application", "data", "retained", "180", "days", "candidate", "deleted"],
+      "relevant_documents": ["hiring_handbook.md"],
+      "source_document": "hiring_handbook.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q019",
+      "question": "What is the error rate threshold that triggers an alert?",
+      "answer": "Error rate alerts fire when the error rate exceeds 1 percent over 10 minutes.",
+      "answer_keywords": ["error", "rate", "alerts", "1", "percent", "10", "minutes"],
+      "relevant_documents": ["observability_standards.md"],
+      "source_document": "observability_standards.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q020",
+      "question": "What is the standard payment term for vendors and what discount applies for early payment?",
+      "answer": "Standard payment terms are net 45 from the invoice date, with a 2 percent discount for payment within 10 days.",
+      "answer_keywords": ["payment", "terms", "net", "45", "invoice", "2", "percent", "discount", "10", "days"],
+      "relevant_documents": ["vendor_procurement.md"],
+      "source_document": "vendor_procurement.md",
+      "category": "context",
+      "difficulty": "hard"
+    },
+    {
+      "id": "q021",
+      "question": "What notice is required for a suspected data incident?",
+      "answer": "Any suspected data incident must be reported to the Security Operations team within 5 minutes of discovery.",
+      "answer_keywords": ["incident", "reported", "Security", "Operations", "5", "minutes", "discovery"],
+      "relevant_documents": ["remote_work_policy.md"],
+      "source_document": "remote_work_policy.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q022",
+      "question": "How long are hardware warranties valid and what do they not cover?",
+      "answer": "All hardware carries a 24 month warranty covering manufacturing defects; it does not cover accidental damage.",
+      "answer_keywords": ["hardware", "24", "month", "warranty", "manufacturing", "defects", "accidental", "damage"],
+      "relevant_documents": ["refund_terms.md"],
+      "source_document": "refund_terms.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q023",
+      "question": "When does a compensation review window open and close?",
+      "answer": "The review window opens on 1 January and closes on 31 March, with adjustments effective from the first payroll of April.",
+      "answer_keywords": ["review", "window", "opens", "1", "January", "closes", "31", "March", "payroll", "April"],
+      "relevant_documents": ["leave_and_compensation.md"],
+      "source_document": "leave_and_compensation.md",
+      "category": "retrieval",
+      "difficulty": "medium"
+    },
+    {
+      "id": "q024",
+      "question": "What is the delivery time for express shipping and what does it cost?",
+      "answer": "Express delivery takes 2 business days and costs an additional 12 units.",
+      "answer_keywords": ["Express", "delivery", "2", "business", "days", "additional", "12", "units"],
+      "relevant_documents": ["refund_terms.md"],
+      "source_document": "refund_terms.md",
+      "category": "retrieval",
+      "difficulty": "easy"
+    }
+  ]
+}

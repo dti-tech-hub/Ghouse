@@ -1,0 +1,18 @@
+# normalise line endings so the repo behaves the same on every platform
+* text=auto eol=lf
+
+*.py    text diff=python
+*.md    text
+*.yaml  text
+*.yml   text
+*.json  text
+*.toml  text
+*.txt   text
+
+# binary / non-text
+*.db        binary
+*.db-shm    binary
+*.db-wal    binary
+*.png       binary
+*.jpg       binary
+*.pdf       binary

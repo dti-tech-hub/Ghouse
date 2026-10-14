@@ -1,0 +1,1003 @@
+{
+  "health": {
+    "status": "ok",
+    "version": "1.0.0",
+    "mode": "demo",
+    "provider": "mock",
+    "model": "mock-deterministic-v1",
+    "documents": 10,
+    "chunks": 49,
+    "database": "B:\\Ghouse\\storage\\agentic_rag.db",
+    "labels": {
+      "results": "DEMO / MOCK RESULTS",
+      "provider_class": "mock-deterministic"
+    }
+  },
+  "config": {
+    "settings": {
+      "app_name": "Agentic RAG Failure Diagnosis and Recovery System",
+      "mode": "demo",
+      "seed": 42,
+      "thresholds": {
+        "min_top_overlap": 0.34,
+        "min_mean_overlap": 0.12,
+        "useful_overlap": 0.2,
+        "min_top_score": 0.12,
+        "min_mean_score": 0.1,
+        "min_score_gap": 0.01,
+        "min_useful_chunk_ratio": 0.4,
+        "max_duplicate_ratio": 0.6,
+        "min_rerank_margin": 0.02,
+        "max_rank_regression_rate": 0.34,
+        "relevant_promotion_min_gain": 0.05,
+        "min_context_tokens": 60,
+        "max_context_tokens": 3000,
+        "min_context_coverage": 0.5,
+        "min_source_diversity": 1,
+        "max_fragmentation_ratio": 0.5,
+        "max_conflict_score": 0.35,
+        "min_groundedness": 0.62,
+        "min_claim_support": 0.34,
+        "min_citation_coverage": 0.3,
+        "max_unsupported_claims": 0,
+        "min_answer_words": 12,
+        "min_query_words": 3,
+        "max_query_words": 90,
+        "ambiguous_entity_mentions": 3,
+        "max_rewrite_drift": 0.62,
+        "min_rewrite_change": 0.08,
+        "max_repeat_actions": 1,
+        "max_tool_calls": 12
+      },
+      "budget": {
+        "max_recovery_attempts": 4,
+        "max_total_latency_ms": 45000,
+        "max_llm_calls": 14,
+        "max_token_budget": 24000,
+        "max_repeated_actions": 1,
+        "max_stage_retries": 2
+      },
+      "chunking": {
+        "chunk_size": 320,
+        "chunk_overlap": 60,
+        "separators": [
+          "\n\n",
+          "\n",
+          ". ",
+          " ",
+          ""
+        ],
+        "min_chunk_chars": 30
+      },
+      "retrieval": {
+        "top_k": 5,
+        "candidate_k": 12,
+        "method": "hybrid",
+        "vector_backend": "auto",
+        "embedding_backend": "hashing",
+        "embedding_dim": 384,
+        "hybrid_alpha": 0.55,
+        "rrf_k": 60,
+        "rerank_enabled": true,
+        "rerank_candidates": 10,
+        "rerank_model": "lexical-cross"
+      },
+      "generation": {
+        "provider": "mock",
+        "model": "mock-deterministic-v1",
+        "temperature": 0.0,
+        "max_tokens": 512,
+        "ground_answer": true,
+        "cite_sources": true,
+        "require_grounding": true,
+        "base_url": "",
+        "api_key_env": "OPENAI_API_KEY",
+        "request_timeout_s": 30.0
+      },
+      "diagnosis": {
+        "rule_confidence_threshold": 0.55,
+        "use_llm_fallback": true,
+        "llm_provider": null,
+        "llm_model": null,
+        "max_evidence_items": 8,
+        "temperature": 0.0
+      },
+      "agent": {
+        "max_steps": 8,
+        "enable_decomposition": true,
+        "decomposition_min_words": 12,
+        "enable_tools": true,
+        "tool_timeout_ms": 2000
+      },
+      "paths": {
+        "root": "B:\\Ghouse",
+        "data_dir": "B:\\Ghouse\\data",
+        "demo_documents": "B:\\Ghouse\\data\\demo_documents",
+        "demo_questions": "B:\\Ghouse\\data\\demo_questions",
+        "demo_ground_truth": "B:\\Ghouse\\data\\demo_ground_truth",
+        "storage_dir": "B:\\Ghouse\\storage",
+        "index_dir": "B:\\Ghouse\\storage\\index",
+        "upload_dir": "B:\\Ghouse\\storage\\uploads",
+        "db_path": "B:\\Ghouse\\storage\\agentic_rag.db",
+        "experiment_config_dir": "B:\\Ghouse\\experiments\\configs",
+        "experiment_results_dir": "B:\\Ghouse\\experiments\\results"
+      },
+      "labels": {
+        "results": "DEMO / MOCK RESULTS",
+        "provider_class": "mock-deterministic"
+      },
+      "raw": {}
+    },
+    "taxonomy": {
+      "stages": [
+        "query_understanding",
+        "query_decomposition",
+        "retrieval",
+        "ranking",
+        "context_assembly",
+        "generation",
+        "validation",
+        "agent_control",
+        "infrastructure"
+      ],
+      "classes": [
+        "CONTEXT_FAILURE",
+        "RANKING_FAILURE",
+        "INFRASTRUCTURE_FAILURE",
+        "QUERY_FAILURE",
+        "RESOURCE_FAILURE",
+        "GENERATION_FAILURE",
+        "RETRIEVAL_FAILURE",
+        "NONE",
+        "AGENT_CONTROL_FAILURE"
+      ],
+      "subtypes": {
+        "QUERY_FAILURE": [
+          {
+            "subtype": "ambiguous_query",
+            "stage": "query_understanding",
+            "description": "Query is ambiguous or under-specified; different readings yield different evidence needs.",
+            "severity": "medium",
+            "recovery_actions": [
+              "QUERY_REWRITE",
+              "DECOMPOSITION_REPAIR",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "query_too_short",
+              "multiple_entity_mentions",
+              "no_anchor_terms"
+            ],
+            "reusable_stage": "retrieval"
+          },
+          {
+            "subtype": "incomplete_decomposition",
+            "stage": "query_decomposition",
+            "description": "Complex query was decomposed into too few / wrong sub-questions.",
+            "severity": "high",
+            "recovery_actions": [
+              "DECOMPOSITION_REPAIR",
+              "QUERY_REWRITE",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "subquery_count_below_expected",
+              "constraint_not_covered"
+            ],
+            "reusable_stage": "retrieval"
+          },
+          {
+            "subtype": "incorrect_rewrite",
+            "stage": "query_understanding",
+            "description": "Query rewrite changed the meaning of the original question.",
+            "severity": "high",
+            "recovery_actions": [
+              "QUERY_REWRITE",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "rewrite_drift_high",
+              "key_terms_dropped"
+            ],
+            "reusable_stage": "retrieval"
+          },
+          {
+            "subtype": "over_decomposition",
+            "stage": "query_decomposition",
+            "description": "Query was split into redundant sub-questions producing duplicated evidence.",
+            "severity": "low",
+            "recovery_actions": [
+              "DECOMPOSITION_REPAIR",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "redundant_subqueries"
+            ],
+            "reusable_stage": "retrieval"
+          }
+        ],
+        "RESOURCE_FAILURE": [
+          {
+            "subtype": "budget_exhausted",
+            "stage": "agent_control",
+            "description": "Recovery attempt budget exhausted before a verified answer.",
+            "severity": "high",
+            "recovery_actions": [
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "attempts_remaining_zero"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "latency_budget_exceeded",
+            "stage": "agent_control",
+            "description": "Total latency budget for the request was exhausted.",
+            "severity": "high",
+            "recovery_actions": [
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "latency_budget_remaining_zero"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "token_budget_exceeded",
+            "stage": "agent_control",
+            "description": "Token/cost budget for the request was exhausted.",
+            "severity": "high",
+            "recovery_actions": [
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "token_budget_remaining_zero"
+            ],
+            "reusable_stage": null
+          }
+        ],
+        "CONTEXT_FAILURE": [
+          {
+            "subtype": "conflicting_evidence",
+            "stage": "context_assembly",
+            "description": "Context contains mutually inconsistent statements about the answer.",
+            "severity": "high",
+            "recovery_actions": [
+              "RERANK",
+              "CHUNK_EXPANSION",
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "contradiction_detected",
+              "negation_conflict",
+              "numeric_conflict"
+            ],
+            "reusable_stage": "ranking"
+          },
+          {
+            "subtype": "excessive_context",
+            "stage": "context_assembly",
+            "description": "Context is too large and dilutes the relevant evidence.",
+            "severity": "medium",
+            "recovery_actions": [
+              "RERANK",
+              "CONTEXT_EXPANSION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "context_tokens_above_maximum",
+              "relevant_chunk_buried",
+              "low_precision_at_depth"
+            ],
+            "reusable_stage": "ranking"
+          },
+          {
+            "subtype": "fragmented_context",
+            "stage": "context_assembly",
+            "description": "Answer-bearing sentences were split across chunks so the evidence is unusable.",
+            "severity": "high",
+            "recovery_actions": [
+              "CHUNK_EXPANSION",
+              "CONTEXT_EXPANSION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "high_fragmentation_ratio",
+              "adjacent_chunk_gap",
+              "coverage_low"
+            ],
+            "reusable_stage": "ranking"
+          },
+          {
+            "subtype": "insufficient_context",
+            "stage": "context_assembly",
+            "description": "Context is too small to answer the question.",
+            "severity": "high",
+            "recovery_actions": [
+              "CONTEXT_EXPANSION",
+              "EXPAND_TOP_K",
+              "CHUNK_EXPANSION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "context_tokens_below_minimum",
+              "coverage_below_threshold"
+            ],
+            "reusable_stage": "ranking"
+          },
+          {
+            "subtype": "missing_evidence",
+            "stage": "context_assembly",
+            "description": "A constraint of the question is not covered by any retrieved chunk.",
+            "severity": "high",
+            "recovery_actions": [
+              "CONTEXT_EXPANSION",
+              "EXPAND_TOP_K",
+              "HYBRID_SEARCH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "constraint_coverage_below_1"
+            ],
+            "reusable_stage": "ranking"
+          }
+        ],
+        "GENERATION_FAILURE": [
+          {
+            "subtype": "contradiction",
+            "stage": "generation",
+            "description": "Answer contradicts the retrieved evidence.",
+            "severity": "critical",
+            "recovery_actions": [
+              "CONSTRAINED_REGENERATION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "answer_evidence_negation_conflict"
+            ],
+            "reusable_stage": "context_assembly"
+          },
+          {
+            "subtype": "hallucination",
+            "stage": "generation",
+            "description": "Answer contains fabricated content with no support in the evidence.",
+            "severity": "critical",
+            "recovery_actions": [
+              "CONSTRAINED_REGENERATION",
+              "CONTEXT_EXPANSION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "groundedness_below_threshold",
+              "unsupported_claims_present"
+            ],
+            "reusable_stage": "context_assembly"
+          },
+          {
+            "subtype": "incomplete_answer",
+            "stage": "generation",
+            "description": "Answer omits part of what the question asked for.",
+            "severity": "medium",
+            "recovery_actions": [
+              "CONSTRAINED_REGENERATION",
+              "CONTEXT_EXPANSION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "subquestion_coverage_below_1"
+            ],
+            "reusable_stage": "context_assembly"
+          },
+          {
+            "subtype": "unsupported_claim",
+            "stage": "generation",
+            "description": "At least one claim in the answer is not entailed by the retrieved evidence.",
+            "severity": "high",
+            "recovery_actions": [
+              "CONSTRAINED_REGENERATION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "claim_support_below_threshold",
+              "citation_coverage_low"
+            ],
+            "reusable_stage": "context_assembly"
+          }
+        ],
+        "INFRASTRUCTURE_FAILURE": [
+          {
+            "subtype": "embedding_failure",
+            "stage": "infrastructure",
+            "description": "Embedding backend failed (dimension mismatch, empty vector, service error).",
+            "severity": "critical",
+            "recovery_actions": [
+              "ALTERNATE_PATH",
+              "BOUNDED_RETRY",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "embedding_exception",
+              "dimension_mismatch"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "malformed_response",
+            "stage": "infrastructure",
+            "description": "Downstream model/service returned unparseable output.",
+            "severity": "high",
+            "recovery_actions": [
+              "BOUNDED_RETRY",
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "json_parse_error",
+              "schema_violation"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "model_failure",
+            "stage": "infrastructure",
+            "description": "LLM provider returned an error or empty completion.",
+            "severity": "critical",
+            "recovery_actions": [
+              "BOUNDED_RETRY",
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "provider_error",
+              "empty_completion"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "retrieval_service_unavailable",
+            "stage": "infrastructure",
+            "description": "Retrieval backend/vector store could not be reached.",
+            "severity": "critical",
+            "recovery_actions": [
+              "ALTERNATE_PATH",
+              "BOUNDED_RETRY",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "service_unavailable",
+              "exception_type"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "timeout",
+            "stage": "infrastructure",
+            "description": "A pipeline stage exceeded its time budget.",
+            "severity": "high",
+            "recovery_actions": [
+              "BOUNDED_RETRY",
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "latency_exceeds_budget"
+            ],
+            "reusable_stage": null
+          }
+        ],
+        "RETRIEVAL_FAILURE": [
+          {
+            "subtype": "empty_retrieval",
+            "stage": "retrieval",
+            "description": "Retrieval returned zero results (index/service level emptiness).",
+            "severity": "critical",
+            "recovery_actions": [
+              "BOUNDED_RETRY",
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "result_count_zero"
+            ],
+            "reusable_stage": "query_understanding"
+          },
+          {
+            "subtype": "irrelevant_retrieval",
+            "stage": "retrieval",
+            "description": "Retrieved chunks are topically unrelated to the question.",
+            "severity": "high",
+            "recovery_actions": [
+              "QUERY_REWRITE",
+              "HYBRID_SEARCH",
+              "RERANK",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "top_score_low",
+              "query_chunk_overlap_near_zero"
+            ],
+            "reusable_stage": "query_understanding"
+          },
+          {
+            "subtype": "low_recall",
+            "stage": "retrieval",
+            "description": "Relevant chunks exist in the corpus but were not retrieved.",
+            "severity": "high",
+            "recovery_actions": [
+              "QUERY_REWRITE",
+              "HYBRID_SEARCH",
+              "EXPAND_TOP_K",
+              "BROADEN_RETRIEVAL",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "mean_score_below_threshold",
+              "score_gap_small",
+              "no_lexical_overlap"
+            ],
+            "reusable_stage": "query_understanding"
+          },
+          {
+            "subtype": "no_useful_evidence",
+            "stage": "retrieval",
+            "description": "Retrieval returned nothing that can support an answer.",
+            "severity": "critical",
+            "recovery_actions": [
+              "QUERY_REWRITE",
+              "HYBRID_SEARCH",
+              "EXPAND_TOP_K",
+              "BROADEN_RETRIEVAL",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "zero_useful_chunks"
+            ],
+            "reusable_stage": "query_understanding"
+          },
+          {
+            "subtype": "stale_documents",
+            "stage": "retrieval",
+            "description": "Retrieved evidence comes from outdated document versions.",
+            "severity": "medium",
+            "recovery_actions": [
+              "ALTERNATE_PATH",
+              "BOUNDED_RETRY",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "stale_timestamp",
+              "superseded_document"
+            ],
+            "reusable_stage": "retrieval"
+          }
+        ],
+        "AGENT_CONTROL_FAILURE": [
+          {
+            "subtype": "incorrect_workflow",
+            "stage": "agent_control",
+            "description": "Agent followed a plan that cannot reach the goal.",
+            "severity": "high",
+            "recovery_actions": [
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "dead_end_state"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "repeated_action",
+            "stage": "agent_control",
+            "description": "Agent repeated an action that already failed.",
+            "severity": "high",
+            "recovery_actions": [
+              "TOOL_REPAIR",
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "duplicate_action_signature",
+              "max_repeats_exceeded"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "unnecessary_tool_call",
+            "stage": "agent_control",
+            "description": "Agent invoked a tool whose result is unused by the final answer.",
+            "severity": "low",
+            "recovery_actions": [
+              "TOOL_REPAIR"
+            ],
+            "evidence_hints": [
+              "unused_tool_results"
+            ],
+            "reusable_stage": null
+          },
+          {
+            "subtype": "wrong_tool_selection",
+            "stage": "agent_control",
+            "description": "Agent invoked a tool that cannot serve the current subgoal.",
+            "severity": "medium",
+            "recovery_actions": [
+              "TOOL_REPAIR",
+              "ALTERNATE_PATH",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "tool_result_relevance_zero"
+            ],
+            "reusable_stage": null
+          }
+        ],
+        "RANKING_FAILURE": [
+          {
+            "subtype": "irrelevant_ranked_high",
+            "stage": "ranking",
+            "description": "Irrelevant chunk occupies a top context slot.",
+            "severity": "medium",
+            "recovery_actions": [
+              "RERANK",
+              "CHUNK_EXPANSION",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "irrelevant_at_rank_1",
+              "score_margin_small"
+            ],
+            "reusable_stage": "retrieval"
+          },
+          {
+            "subtype": "poor_reranking",
+            "stage": "ranking",
+            "description": "Reranker produced a worse ordering than the base retriever.",
+            "severity": "medium",
+            "recovery_actions": [
+              "RERANK",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "rerank_score_flat",
+              "mrr_regression_after_rerank"
+            ],
+            "reusable_stage": "retrieval"
+          },
+          {
+            "subtype": "relevant_ranked_low",
+            "stage": "ranking",
+            "description": "Relevant chunks exist in the candidate set but were pushed below the cut.",
+            "severity": "high",
+            "recovery_actions": [
+              "RERANK",
+              "EXPAND_TOP_K",
+              "ABSTAIN"
+            ],
+            "evidence_hints": [
+              "relevant_at_rank_beyond_k",
+              "rank_regression"
+            ],
+            "reusable_stage": "retrieval"
+          }
+        ]
+      }
+    },
+    "faults": [
+      {
+        "fault_type": "QUERY_CORRUPTION",
+        "title": "Query corruption (word dropout / noise injection)",
+        "target_stage": "query_understanding",
+        "category": "semantic",
+        "description": "Drop, duplicate or corrupt content words of the user query before it reaches retrieval, simulating typos, truncation and ASR/OCR noise.",
+        "expected_symptom": "retrieval returns topically unrelated chunks",
+        "expected_failure_class": "RETRIEVAL_FAILURE",
+        "expected_subtype": "low_recall",
+        "severity": "high",
+        "default_parameters": {
+          "dropout": 0.75,
+          "seed": 7
+        },
+        "possible_subtypes": [
+          "low_recall",
+          "irrelevant_retrieval"
+        ]
+      },
+      {
+        "fault_type": "BAD_QUERY_REWRITE",
+        "title": "Bad query rewrite (semantic drift)",
+        "target_stage": "query_understanding",
+        "category": "agentic",
+        "description": "Replace the user's question with a drifting paraphrase that keeps none of the anchor terms, so retrieval runs on the wrong topic.",
+        "expected_symptom": "retrieved evidence is on a different topic than the question",
+        "expected_failure_class": "QUERY_FAILURE",
+        "expected_subtype": "incorrect_rewrite",
+        "severity": "high",
+        "default_parameters": {
+          "drift": 0.85
+        },
+        "possible_subtypes": [
+          "incorrect_rewrite",
+          "low_recall"
+        ]
+      },
+      {
+        "fault_type": "RELEVANT_DOC_REMOVAL",
+        "title": "Relevant document removal",
+        "target_stage": "retrieval",
+        "category": "data",
+        "description": "Remove every chunk of the document that contains the answer from the searchable index, simulating a corpus that genuinely lacks the evidence.",
+        "expected_symptom": "no chunk can answer the question at any retrieval effort",
+        "expected_failure_class": "RETRIEVAL_FAILURE",
+        "expected_subtype": "no_useful_evidence",
+        "severity": "critical",
+        "default_parameters": {
+          "remove_all_ground_truth": true
+        },
+        "possible_subtypes": [
+          "no_useful_evidence",
+          "low_recall"
+        ]
+      },
+      {
+        "fault_type": "IRRELEVANT_DOC_INJECTION",
+        "title": "Irrelevant document injection",
+        "target_stage": "retrieval",
+        "category": "data",
+        "description": "Replace the result list with chunks that share no vocabulary with the query.",
+        "expected_symptom": "top-k results are unrelated to the question",
+        "expected_failure_class": "RETRIEVAL_FAILURE",
+        "expected_subtype": "irrelevant_retrieval",
+        "severity": "high",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "irrelevant_retrieval",
+          "no_useful_evidence"
+        ]
+      },
+      {
+        "fault_type": "LOW_TOP_K",
+        "title": "Low top-k truncation",
+        "target_stage": "retrieval",
+        "category": "configuration",
+        "description": "Truncate the candidate list to an unrealistically small top-k.",
+        "expected_symptom": "relevant chunk exists in the corpus but falls outside the cut",
+        "expected_failure_class": "RANKING_FAILURE",
+        "expected_subtype": "relevant_ranked_low",
+        "severity": "medium",
+        "default_parameters": {
+          "top_k_cap": 1
+        },
+        "possible_subtypes": [
+          "relevant_ranked_low",
+          "insufficient_context"
+        ]
+      },
+      {
+        "fault_type": "RANKING_CORRUPTION",
+        "title": "Ranking / reranking corruption",
+        "target_stage": "ranking",
+        "category": "algorithmic",
+        "description": "Replace the reranker with one that inverts or randomises the candidate order.",
+        "expected_symptom": "relevant chunks move down, irrelevant chunks rise",
+        "expected_failure_class": "RANKING_FAILURE",
+        "expected_subtype": "poor_reranking",
+        "severity": "medium",
+        "default_parameters": {
+          "mode": "reverse"
+        },
+        "possible_subtypes": [
+          "poor_reranking",
+          "irrelevant_ranked_high",
+          "relevant_ranked_low"
+        ]
+      },
+      {
+        "fault_type": "CHUNK_FRAGMENTATION",
+        "title": "Chunk fragmentation (aggressive re-chunking)",
+        "target_stage": "context_assembly",
+        "category": "configuration",
+        "description": "Re-chunk the corpus with a tiny window so answer sentences are split across neighbouring chunks and become unusable in isolation.",
+        "expected_symptom": "retrieved chunks individually cover only part of the evidence",
+        "expected_failure_class": "CONTEXT_FAILURE",
+        "expected_subtype": "fragmented_context",
+        "severity": "high",
+        "default_parameters": {
+          "chunk_size": 50,
+          "chunk_overlap": 6
+        },
+        "possible_subtypes": [
+          "fragmented_context",
+          "insufficient_context"
+        ]
+      },
+      {
+        "fault_type": "CONTEXT_TRUNCATION",
+        "title": "Context truncation (too few tokens)",
+        "target_stage": "context_assembly",
+        "category": "configuration",
+        "description": "Truncate the assembled context to a tiny token budget.",
+        "expected_symptom": "context cannot cover the question's constraints",
+        "expected_failure_class": "CONTEXT_FAILURE",
+        "expected_subtype": "insufficient_context",
+        "severity": "high",
+        "default_parameters": {
+          "max_context_tokens": 40,
+          "max_chunks": 1
+        },
+        "possible_subtypes": [
+          "insufficient_context",
+          "incomplete_answer"
+        ]
+      },
+      {
+        "fault_type": "CONFLICTING_EVIDENCE",
+        "title": "Conflicting evidence injection",
+        "target_stage": "context_assembly",
+        "category": "data",
+        "description": "Inject a decoy chunk that negates or contradicts the key numeric/entity claim of the supporting evidence.",
+        "expected_symptom": "context contains mutually inconsistent statements",
+        "expected_failure_class": "CONTEXT_FAILURE",
+        "expected_subtype": "conflicting_evidence",
+        "severity": "high",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "conflicting_evidence"
+        ]
+      },
+      {
+        "fault_type": "STALE_DOCUMENT",
+        "title": "Stale document (superseded version)",
+        "target_stage": "retrieval",
+        "category": "data",
+        "description": "Pin the search to an outdated document version instead of the current one.",
+        "expected_symptom": "evidence is outdated but structurally valid",
+        "expected_failure_class": "RETRIEVAL_FAILURE",
+        "expected_subtype": "stale_documents",
+        "severity": "medium",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "stale_documents"
+        ]
+      },
+      {
+        "fault_type": "GENERATION_CONSTRAINT_REMOVAL",
+        "title": "Generation grounding-constraint removal",
+        "target_stage": "generation",
+        "category": "agentic",
+        "description": "Disable the grounding instruction so the generator is free to produce content that is not entailed by the retrieved evidence.",
+        "expected_symptom": "answer contains unsupported claims and no citations",
+        "expected_failure_class": "GENERATION_FAILURE",
+        "expected_subtype": "hallucination",
+        "severity": "critical",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "hallucination",
+          "unsupported_claim"
+        ]
+      },
+      {
+        "fault_type": "TOOL_TIMEOUT",
+        "title": "Tool timeout (retrieval tool)",
+        "target_stage": "retrieval",
+        "category": "infrastructure",
+        "description": "Make the retrieval tool exceed its time budget.",
+        "expected_symptom": "stage exceeds latency budget",
+        "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+        "expected_subtype": "timeout",
+        "severity": "high",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "timeout"
+        ]
+      },
+      {
+        "fault_type": "RETRIEVAL_TIMEOUT",
+        "title": "Retrieval service timeout",
+        "target_stage": "infrastructure",
+        "category": "infrastructure",
+        "description": "The vector store becomes unreachable / times out mid-request.",
+        "expected_symptom": "retrieval raises a timeout before returning any result",
+        "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+        "expected_subtype": "timeout",
+        "severity": "high",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "timeout",
+          "retrieval_service_unavailable"
+        ]
+      },
+      {
+        "fault_type": "EMPTY_RETRIEVAL",
+        "title": "Empty retrieval result",
+        "target_stage": "retrieval",
+        "category": "infrastructure",
+        "description": "Retrieval returns zero candidates.",
+        "expected_symptom": "zero results returned to the ranking stage",
+        "expected_failure_class": "RETRIEVAL_FAILURE",
+        "expected_subtype": "empty_retrieval",
+        "severity": "critical",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "empty_retrieval",
+          "no_useful_evidence"
+        ]
+      },
+      {
+        "fault_type": "EMBEDDING_FAILURE",
+        "title": "Embedding backend failure",
+        "target_stage": "infrastructure",
+        "category": "infrastructure",
+        "description": "The embedding backend raises, producing dimension/NaN vectors.",
+        "expected_symptom": "embedding error recorded; dense retrieval unusable",
+        "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+        "expected_subtype": "embedding_failure",
+        "severity": "critical",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "embedding_failure"
+        ]
+      },
+      {
+        "fault_type": "MODEL_FAILURE",
+        "title": "Malformed model response",
+        "target_stage": "infrastructure",
+        "category": "infrastructure",
+        "description": "The LLM returns output that cannot be parsed / is empty.",
+        "expected_symptom": "parse error on model response",
+        "expected_failure_class": "INFRASTRUCTURE_FAILURE",
+        "expected_subtype": "malformed_response",
+        "severity": "high",
+        "default_parameters": {},
+        "possible_subtypes": [
+          "malformed_response",
+          "model_failure"
+        ]
+      },
+      {
+        "fault_type": "AMBIGUOUS_QUERY",
+        "title": "Ambiguous query injection",
+        "target_stage": "query_understanding",
+        "category": "agentic",
+        "description": "Reduce the query to an under-specified fragment before processing.",
+        "expected_symptom": "query under-specified at query-understanding time",
+        "expected_failure_class": "QUERY_FAILURE",
+        "expected_subtype": "ambiguous_query",
+        "severity": "medium",
+        "default_parameters": {
+          "keep_words": 2
+        },
+        "possible_subtypes": [
+          "ambiguous_query"
+        ]
+      },
+      {
+        "fault_type": "INCOMPLETE_DECOMPOSITION",
+        "title": "Incomplete query decomposition",
+        "target_stage": "query_decomposition",
+        "category": "agentic",
+        "description": "Drop all but the first sub-question of a complex question.",
+        "expected_symptom": "sub-questions cover only part of the question",
+        "expected_failure_class": "QUERY_FAILURE",
+        "expected_subtype": "incomplete_decomposition",
+        "severity": "high",
+        "default_parameters": {
+          "keep": 1
+        },
+        "possible_subtypes": [
+          "incomplete_decomposition",
+          "missing_evidence"
+        ]
+      }
+    ],
+    "budgets": {
+      "max_recovery_attempts": 4,
+      "max_total_latency_ms": 45000,
+      "max_llm_calls": 14,
+      "max_token_budget": 24000,
+      "max_repeated_actions": 1,
+      "max_stage_retries": 2
+    }
+  }
+}
